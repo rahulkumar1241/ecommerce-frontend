@@ -1,0 +1,17 @@
+@import "../../../assets/css/color_constants.scss";
+
+.sheet-container {
+    margin: 50px 30vw;
+
+    .dropzone 
+    {
+        height: 200px;
+        width: 100%;
+        border: 2px dashed $primary-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        flex-direction: column;
+    }
+}

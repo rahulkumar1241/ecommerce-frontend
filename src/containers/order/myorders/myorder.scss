@@ -1,0 +1,141 @@
+@import "../../../assets/css/color_constants.scss";
+
+.my-orders-container {
+    margin: 20px 15vw;
+
+    .my-order-card {
+        height: 125px;
+        margin: 10px 0px;
+        padding: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        transition: 0.3s ease-in-out;
+        border-radius: 10px;
+
+        img {
+            height: 105px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .product-name:hover {
+            color: $primary-color
+        }
+
+        .stepper-container {
+            margin-top: 10px;
+            margin-left: -75px
+        }
+
+        .info-section {
+            display: flex;
+            align-items: center;
+            margin-top: -10px;
+
+            .action-button {
+                margin-left: 15px;
+
+            }
+
+            .order-info {
+                font-family: Arial;
+                color: $primary-info-color;
+                margin-left: 10px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            .quantity,
+            .buyout_price {
+                font-weight: 600;
+            }
+
+            .quantity {
+                margin-right: 20px;
+            }
+
+            .buyout_price {
+                label {
+                    color: $primary-color;
+                    font-family: Arial;
+                }
+            }
+        }
+
+        .order-status {
+            span {
+                font-weight: 600;
+
+                .error {
+                    color: $primary-error-color
+                }
+
+                .success {
+                    color: $primary-success-color-dark
+                }
+            }
+        }
+    }
+
+    .my-order-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    @media (max-width: 460px) {
+        margin: 20px 3vw;
+
+        .product-name {
+            font-size: 65%;
+        }
+
+        .info-section {
+            font-size: 70%;
+
+            .action-button {
+                margin-left: -15px;
+            }
+
+            .buyout_price{
+                margin-left: -15px;
+            }
+
+            .order-info {
+                margin-left: 5px;
+                font-size: 12px;
+            }
+
+            .quantity {
+                margin-right: 5px;
+            }
+        }
+
+        .stepper-container {
+            margin-top: 5px;
+            margin-left: -20px !important;
+        }
+
+        .my-order-card {
+            height: 155px;
+
+            img {
+                height: 135px;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .order-status {
+            font-size: 75%;
+        }
+    }
+}

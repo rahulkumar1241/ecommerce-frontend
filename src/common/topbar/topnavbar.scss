@@ -1,0 +1,34 @@
+body {
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar-brand {
+    background-image: url("../../assets/images/icons/trace.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+  }
+  
+  .navbar-nav .nav-item:hover {
+    background-color: #e9611e;
+    color:white;
+    cursor: pointer;
+  }
+
+  .navbar-nav .nav-item .nav-link{
+    color:white
+  }
+
+  .navbar-nav .nav-item .active{
+    background-color: #e9611e;
+    border-radius: 5px;
+  }
+
+  .dropdown-menu .dropdown-item:active{
+    background-color:white ;
+    color:black;
+  }
+
+  

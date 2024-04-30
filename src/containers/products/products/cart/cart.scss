@@ -1,0 +1,154 @@
+@import "../../../../assets/css/color_constants.scss";
+
+.cart-container {
+
+    .products-section {
+        height: 80vh;
+        overflow-y: scroll;
+
+        .my-cart-card {
+            height: 180px;
+            padding: 10px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            border-radius: 10px;
+            margin: 0px 10px;
+            transition: 0.3s ease-in-out;
+
+            .out-of-stock {
+                font-weight: 600;
+                color: $primary-error-color;
+                margin-top: -20px;
+                font-size: 80%;
+            }
+
+            img {
+                max-height: 150px;
+                object-fit: contain;
+                width: 100%;
+                cursor: pointer;
+                transition: .5s ease-in-out;
+            }
+
+            img:hover {
+                transform: scale(1.1);
+            }
+
+            .product-name {
+                font-weight: 600;
+                transition: 0.3s ease-in-out;
+                cursor: pointer;
+            }
+
+            .product-name:hover{
+                color:$primary-color;
+            }
+
+
+            .quantity-section {
+                display: flex;
+                align-items: center;
+                margin-top: -25px;
+            }
+
+            .quantity {
+                font-weight: 600;
+                padding: 0px 10px;
+            }
+
+            .remove-section {
+                cursor: pointer;
+                color: #8B0000
+            }
+
+            
+            .actual-price {
+                text-decoration: line-through;
+                color: #666
+            }
+
+            .price-after-discount {
+                color: $primary-color;
+                font-family: Arial;
+                font-weight: 600;
+            }
+
+            .discount-per,
+            .save-amount {
+                color: $primary-success-color-dark;
+
+            }
+
+            .discount-per label {
+                padding: 0px 5px;
+                border: 1px dashed $primary-success-color-dark;
+                border-radius: 5px;
+            }
+        }
+
+        .my-cart-card:hover{
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+        @media (max-width: 460px) {
+
+            .my-cart-card {
+                height: 200px;
+                padding: 10px;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                border-radius: 10px;
+                margin: 0px 10px;
+            }
+
+            .product-name {
+                font-size: 80%;
+                transition: 0.3s ease-in-out;
+            }
+
+            .product-name:hover{
+                color:$primary-color;
+            }
+
+            .actual-price,
+            .price-after-discount,
+            .discount-per,
+            .save-amount {
+                font-size: 65%;
+                cursor: pointer;
+            }
+
+        }
+
+
+    }
+}
+
+.checkout-section {
+
+    .price-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+
+        .actual-price,
+        .price-after-discount,
+        .save-amount {
+            font-size: 120%;
+        }
+
+        .actual-price {
+            text-decoration: line-through;
+        }
+
+        .price-after-discount {
+            color: #e9611e;
+            font-family: Arial;
+            font-weight: 600;
+        }
+
+        .save-amount {
+            color: $primary-success-color-dark
+        }
+
+    }
+
+
+}

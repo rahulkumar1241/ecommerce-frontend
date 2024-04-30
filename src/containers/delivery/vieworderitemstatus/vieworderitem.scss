@@ -1,0 +1,61 @@
+@import "../../../assets/css/color_constants.scss";
+
+.order-item-card {
+    padding: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+    margin:20px 0px;
+ 
+
+    .title{
+        font-weight: 600;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .title:hover{
+        color:$primary-color
+    }
+
+    .shipping-heading{
+        font-weight: 600;
+        color:$primary-color;
+        font-family: Arial;
+    }
+
+    .shipping-info{
+        .sub-heading{
+            font-weight: 600;
+        }
+    }
+
+    .order-price-info{
+        margin-top: -10px;
+
+        label{
+            font-weight: 600;
+        }
+        span{
+            font-family: Arial;
+            font-weight: 600;
+            color:$primary-color;
+            margin-right: 10px;
+        }
+    }
+    img{
+        height:130px;
+        object-fit: contain;
+        width:100%;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+    img:hover{
+        transform: scale(1.1);
+
+    }
+}
+
+.order-item-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

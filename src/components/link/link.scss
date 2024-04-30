@@ -1,0 +1,8 @@
+@import "../../assets/css/color_constants.scss";
+
+.linkWrapper {
+    a {
+        color: $primary-color;
+        text-transform: lowercase;
+    }
+}

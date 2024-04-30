@@ -1,0 +1,117 @@
+@import "../../../../assets/css/color_constants.scss";
+
+.wishlist-container {
+    margin: 15px 15vw;
+
+    .wishlist-card {
+        height: 150px;
+        padding: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 10px;
+        margin: 15px 0px;
+        transition: 0.3s ease-in-out;
+
+        .product-name {
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+
+        .product-name:hover {
+            color: $primary-color
+        }
+
+        img {
+            height: 130px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: .5s ease-in-out;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-component {
+            margin-top: -15px;
+            margin-left: -5px;
+        }
+
+        .delete-section {
+            cursor: pointer;
+            color: #8B0000
+        }
+
+        .price-section {
+
+            .price,
+            .price_after_discount {
+                font-weight: 600;
+                font-size: 125%;
+            }
+
+            .price {
+                color: #666;
+                text-decoration: line-through;
+                margin-right: 15px;
+            }
+
+            .price_after_discount {
+                color: $primary-color;
+                margin-right: 15px;
+            }
+
+            .discount_per {
+                color: $primary-success-color;
+                border: 1px dashed $primary-success-color;
+                border-radius: 5px;
+                padding: 2px 5px;
+            }
+        }
+
+
+    }
+
+    .wishlist-card:hover{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    @media (max-width: 460px) {
+        margin: 10px 5vw;
+
+        .wishlist-card {
+            height: 130px;
+            padding: 10px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            border-radius: 10px;
+
+            .product-name {
+                font-size: 70%;
+            }
+
+            img {
+                height: 110px;
+                width: 100%;
+            }
+
+            .price-section {
+
+                .price,
+                .price_after_discount {
+                    font-weight: 600;
+                }
+
+                .price {
+                    margin-right: 10px;
+                }
+
+                .price_after_discount {
+                    margin-right: 10px;
+                }
+
+            }
+        }
+
+    }
+}

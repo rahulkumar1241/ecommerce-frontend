@@ -1,0 +1,49 @@
+@import "../../assets/css/color_constants.scss";
+
+.my-select {
+
+    .form-select{
+        border: 1px solid gray;
+    }
+
+
+    label {
+        font-weight: 600;
+        color: $primary-color;
+        margin: 5px 0px;
+        font-size: 14px;
+    }
+
+    .form-select:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border: 1px solid $primary-color;
+    }
+
+
+}
+
+
+.my-select-error {
+    label {
+        font-weight: 600;
+        color: $primary-error-color;
+        margin: 5px 0px;
+        font-size: 14px;
+    }
+
+    .form-select{
+        border: 1px solid $primary-error-color;
+    }
+
+    .form-select:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border: 1px solid $primary-error-color;
+    }
+
+    .errormessage {
+        color: $primary-error-color;
+        font-size: 14px;
+    }
+}

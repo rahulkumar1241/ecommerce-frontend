@@ -1,0 +1,11 @@
+@import "../../assets/css/color_constants.scss";
+
+.MuiSlider-thumb.Mui-focusVisible,
+.MuiSlider-thumb:hover {
+    box-shadow: 0 0 0 10px rgba(233, 97, 30, 0.3) !important;
+}
+
+.MuiSlider-thumb.Mui-focusVisible,
+.MuiSlider-thumb:active {
+    box-shadow: 0 0 0 10px rgba(233, 97, 30, 0.3) !important;
+}

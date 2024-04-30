@@ -1,0 +1,43 @@
+@import "../../../assets/css/color_constants.scss";
+
+.categoryContainer {
+    margin: 15px 0px;
+
+    .catName {
+        font-weight: 650;
+        font-size: 100%;
+        text-transform: uppercase;
+        margin: 8px 0px;
+        font-style: Arial;
+        color: #262626;
+    }
+
+    .view-similar-products {
+        border: none;
+        height: 30px;
+        padding: 0 10px;
+        text-transform: uppercase;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0px;
+        background-color: $primary-color;
+        color: $text-color;
+        cursor: pointer;
+
+        b{
+            margin:0px 0px 0px 5px;
+            color:$primary-color;
+            background-color: $text-color;
+            padding: 3px;
+            border-radius: 5px;
+        }
+    }
+
+    @media (max-width: 460px) {
+        .catName {
+            font-size: 90%;
+        }
+    }
+}

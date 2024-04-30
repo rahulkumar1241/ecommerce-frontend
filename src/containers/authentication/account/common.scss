@@ -1,0 +1,33 @@
+@import "../../../assets/css/color_constants.scss";
+
+.account-container {
+    margin: 20px 20vw;
+
+    .tabs-product-view {
+        .nav-tabs .nav-link.active {
+            background-color: $primary-color;
+            color: $text-color;
+            cursor: pointer;
+            border-radius: 0px;
+            padding: 7px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #444;
+
+        }
+    }
+}
+
+.info-section {
+    img {
+        height: 250px;
+        width: 250px;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+
+    img:hover{
+        transform: scale(1.1);
+    }
+}

@@ -1,0 +1,46 @@
+@import '../../assets/css/color_constants.scss';
+
+.carousel {
+    margin: 0px;
+    padding: 0px;
+
+    .carousel-image {
+        height: 90vh;
+        object-fit: cover;
+        width: 100vw;
+    }
+
+    .carousel-caption h5 {
+        color: $primary-color;
+    }
+
+    .carousel-caption p {
+        color: $text-color;
+        font-weight: 600;
+    }
+
+    .carousel-indicators .active {
+        background-color: $primary-color !important;
+    }
+
+    .carousel-indicators button {
+        height: 6px;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-image: url("../../assets/images/icons/left.png");
+    }
+
+    .carousel-control-next-icon {
+        background-image: url("../../assets/images/icons/right.png");
+    }
+
+    @media only screen and (max-width: 480px) {
+        .carousel-image {
+            height: 50vh;
+            object-fit: cover;
+            width: 100vw;
+        }
+    }
+}

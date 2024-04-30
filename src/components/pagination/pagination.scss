@@ -1,0 +1,7 @@
+
+@import "../../assets/css/color_constants.scss";
+
+.MuiPaginationItem-root.Mui-selected {
+    background-color: $primary-color;
+    color: $text-color;
+}

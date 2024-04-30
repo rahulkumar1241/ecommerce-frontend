@@ -1,0 +1,111 @@
+@import "../../../../assets/css/color_constants.scss";
+
+
+.view-product-container {
+    padding: 15px;
+    height: 90vh;
+
+    .product-image-container {
+       
+        img {
+            height: 80vh;
+            width: 100%;
+            object-fit: contain;
+            transition: 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        img:hover{
+            transform: scale(1.1);
+        }
+    }
+
+    .pointer-events-none {
+        pointer-events: none;
+    }
+
+    .description{
+        font-size: 14px;
+    }
+    
+
+
+    .out-of-stock
+    {
+        color:$primary-error-color;
+        font-size: 120%;
+        font-weight: 600;
+    }
+
+    .tabs-product-view{
+        .nav-tabs .nav-link.active{
+            background-color:$primary-color;
+            color:$text-color;
+            cursor: pointer;
+            border-radius: 0px;
+            padding:7px;
+        }
+
+        .nav-tabs .nav-link{
+            color:#444;
+        }
+    }
+
+    .product-name {
+        font-weight: 600;
+        font-size: 110%;
+    }
+
+    .actual-price,
+    .price-after-discount,
+    .discount-per,
+    .save-amount {
+        font-size: 150%;
+    }
+
+    .actual-price {
+        text-decoration: line-through;
+        color: #666
+    }
+
+    .price-after-discount {
+        color: $primary-color;
+        font-family: Arial;
+        font-weight: 600;
+    }
+
+    .discount-per,
+    .save-amount {
+        font-size: 120%;
+        color: $primary-success-color-dark;
+        font-weight: 600;
+    }
+
+    .discount-per span{
+        padding: 5px;
+        border: 1px dashed $primary-success-color-dark;
+        border-radius: 5px;
+    }
+
+    .quantity{
+        margin-top: 10px;
+        padding: 0px 20px;
+        font-weight: 600;
+        font-size: 150%;
+    }
+
+    @media (max-width: 460px) {
+        .product-image-container {
+            img {
+                height: 40vh;
+                width: 100%;
+                object-fit: contain;
+                transition: 0.3s ease-in-out;
+                cursor: pointer;
+            }
+            img:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
+}

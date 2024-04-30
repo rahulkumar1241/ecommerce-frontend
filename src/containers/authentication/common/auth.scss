@@ -1,0 +1,55 @@
+@import "../../../assets/css/color_constants.scss";
+
+.authContainer {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .resendLinkContainer {
+        color: $primary-color;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+
+
+
+    img {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .mainContainer {
+        margin: 20px;
+        padding: 20px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+        h2 {
+            color: $primary-color;
+        }
+
+        .linkContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+
+
+}
+
+.crossContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    img{
+        height:20px;
+        width:25px;
+    }
+}
