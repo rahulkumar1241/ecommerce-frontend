@@ -39,10 +39,10 @@ const Signup = (props:any) => {
             .required('Lastname is required.')
     });
 
-    useEffect(() => 
-    {
-        localStorage.clear();
-    }, []);
+    // useEffect(() => 
+    // {
+    //     localStorage.clear();
+    // }, []);
 
     const {
         register,
@@ -90,7 +90,7 @@ const Signup = (props:any) => {
             {loadingSignup ? <Loading loading={true} /> : ""}
 
             <div className="authContainer">
-                <div className="col-lg-7 col-xl-7 col-sm-0 col-xs-0">
+                <div className="col-lg-7 col-xl-7 d-none d-lg-block d-xl-block">
                     <img src={BannerImage} alt="main image" />
                 </div>
                 <div className="col-lg-5 col-xl-5 col-sm-12 col-xs-12">
@@ -98,6 +98,7 @@ const Signup = (props:any) => {
                     <div className="col-12">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="row mainContainer">
+                                
                                 <div className="col-12 text-center">
                                     <h2>Signup</h2>
                                 </div>
@@ -112,6 +113,7 @@ const Signup = (props:any) => {
                                         errormessage={errors.firstName?.message}
                                         placeholder="Enter your firstname"
                                     />
+
                                 </div>
                                 <div className="col-6">
                                     <Input
@@ -136,6 +138,7 @@ const Signup = (props:any) => {
                                         errormessage={errors.email?.message}
                                         placeholder="Enter your email"
                                     />
+
                                 </div>
                                 <div className="col-12">
                                     <Button

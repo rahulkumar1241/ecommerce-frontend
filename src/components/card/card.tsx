@@ -35,7 +35,7 @@ const Card = (props: any) => {
     const NAME_LENGTH = 40;
 
     const viewProduct = () => {
-        navigate(`${PATH.PRIVATE.PRODUCTS.MAIN_ROUTE}/${PATH.PRIVATE.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product.product_id}`)
+        navigate(`${PATH.PUBLIC.PRODUCTS.MAIN_ROUTE}/${PATH.PUBLIC.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product.product_id}`)
     }
 
 
@@ -60,15 +60,22 @@ const Card = (props: any) => {
     }
 
     const createOrderFunc = (product_info: any) => {
-        buyProductDataRef.current = {
-            productInfo: product_info
+        if (!localStorage.getItem("accessToken")) {
+            localStorage.setItem("product_to_buy", product_info.product_id);
+            showToast(API_MESSAGE_TYPE.ERROR, "Please sign in to continue.");
+            navigate(PATH.PUBLIC.SIGN_IN);
         }
-        setOpen(true);
+        else {
+            buyProductDataRef.current = {
+                productInfo: product_info
+            }
+            setOpen(true);
+        }
     }
 
     const placeOrder = async () => {
         let productData = buyProductDataRef.current.productInfo;
-        debugger
+
 
         let formData = {
             total_amount: quantity * productData.price_after_discount,
@@ -80,7 +87,6 @@ const Card = (props: any) => {
                 }
             ]
         }
-        debugger
         let response = await dispatch(createOrder(formData));
         let orderData = response?.payload?.data ? response.payload.data : {};
 
@@ -183,15 +189,19 @@ const Card = (props: any) => {
 
                 <div className="container">
                     <div className="col-12 actionBtn mb-2">
-                        <Button label="Add to wishlist" onClick={(e: any) => {
-                            addToWishlistFunc(product);
-                        }} />
+                        <Button label="Add to wishlist"
+                            disabled={localStorage.getItem("accessToken") ? false : true}
+                            onClick={(e: any) => {
+                                addToWishlistFunc(product);
+                            }} />
                     </div>
+
                     <div className="col-12 actionBtn mb-2">
-                        <Button label="Add to cart" isFilled={true} disabled={product.stock <= 0}
+                        <Button label="Add to cart" isFilled={true} disabled={localStorage.getItem("accessToken") ? product.stock <= 0 ? true : false : true}
                             onClick={productAction}
                         />
                     </div>
+
                     <div className="col-12 actionBtn mb-2">
                         <Button label="Buy Now" disabled={product.stock <= 0}
                             onClick={(e: any) => {

@@ -46,8 +46,6 @@ export const useApiService = async ({ url, method, data, headerInfo }: any) => {
     }
 
     catch (error: any) {
-        debugger
-
         return {
             isCrash: true,
             error: error || 'Something went wrong'

@@ -122,7 +122,6 @@ const ViewOrderItemStatus = () => {
                 orderData.message :
                 "Something went wrong")
         }
-        debugger
     }
 
 
@@ -191,7 +190,7 @@ const ViewOrderItemStatus = () => {
                         
                         <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
                             <span className="sub-heading">Mobile No : </span>
-                            <span className="heading">+91 {orderItemData.mobile_number}</span>
+                            <span className="heading">{orderItemData.country_code} {orderItemData.mobile_number}</span>
                         </div>
 
                         <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">

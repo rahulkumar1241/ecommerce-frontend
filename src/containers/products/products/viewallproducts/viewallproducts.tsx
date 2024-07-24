@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import React from "react";
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { getAllProducts, getDropdownValues } from '../../../../store/slices/product';
+import { changePageNumber, getAllProducts, getDropdownValues, resetProductSlice } from '../../../../store/slices/product';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import showToast from '../../../../components/toasters/toast';
 import Card from '../../../../components/card/card';
@@ -22,14 +22,14 @@ const OFFSET = 18;
 
 const ViewAllProducts = () => {
     const dispatch = useAppDispatch();
-    const [page, setPage] = useState(1);
-    const [products, setProducts] = useState([]);
+    // const [page, setPage] = useState(1);
+    // const [products, setProducts] = useState([]);
 
     const DrawerRef: any = useRef();
 
-    const params = new URLSearchParams(document.location.search);
+    // const params = new URLSearchParams(document.location.search);
 
-    const { totalProductsCount, MAX_PRICE, MIN_PRICE, loadingGetAllProducts, loadingGetDropdownValues, dropdownValues } = useAppSelector(state => state.product);
+    const { current_page, search_keyword, allProductsData, totalProductsCount, MAX_PRICE, MIN_PRICE, loadingGetAllProducts, loadingGetDropdownValues, dropdownValues } = useAppSelector(state => state.product);
     const { loadingAddToCart } = useAppSelector(state => state.cart);
     const { loadingAddToWishlist } = useAppSelector(state => state.wishlist)
     const { loadingCreateOrder } = useAppSelector(state => state.order)
@@ -48,16 +48,17 @@ const ViewAllProducts = () => {
     });
 
 
-    const getProductsData = async (page: any) => {
+    const getProductsData = async (page: any, reset?: boolean) => {
         let formData: any = {
             page_number: page,
             page_size: OFFSET,
             filter_section: {}
         }
         /////////////////////////////////////////////////////
-        if (getValues("search")) {
-            formData.filter_section.name = getValues("search");
+        if (search_keyword) {
+            formData.filter_section.name = reset ? "" : search_keyword.trim();
         }
+
         if (getValues("price_range")) {
             formData.filter_section.max_price_range = getValues("price_range");
         }
@@ -92,10 +93,18 @@ const ViewAllProducts = () => {
         let response = await dispatch(getAllProducts(formData));
         let productsData = response?.payload?.data ? response.payload.data : {};
 
+        DrawerRef.current.handleClose();
+
         if (productsData.success) {
-            let data = { ...productsData.data };
-            setProducts(data.products ? data.products : []);
-            setPage(page);
+            // let data = { ...productsData.data };
+            // setProducts(data.products ? data.products : []);
+
+            let pageData: any = {
+                page_number: page
+            }
+
+            dispatch(changePageNumber(pageData))
+            // setPage(page);
             window.scrollTo(0, 0);
         } else {
             showToast('ERROR', productsData.message || 'Some Error Occurred...');
@@ -123,8 +132,13 @@ const ViewAllProducts = () => {
         ////////////initial page is one by default///////
         resetValues();
         getDropdownValuesFunc()
-        getProductsData(1);
+        window.scrollTo(0, 0)
+        // getProductsData(1);
+        return () => {
+            dispatch(resetProductSlice());
+        }
     }, [])
+
 
 
     const handlePageChange = (page: any) => {
@@ -132,7 +146,7 @@ const ViewAllProducts = () => {
     }
 
     const resetValues = () => {
-        setValue("search", "");
+        // setValue("search", "");
         setValue("price_range", undefined);
         setValue("sort_by_price", "");
         setValue("newest_first", false);
@@ -151,10 +165,6 @@ const ViewAllProducts = () => {
 
     const handleChangePrice = (e: any) => {
         setValue("price_range", e.target.value);
-    }
-
-    const handleChangeSearch = (e: any) => {
-        setValue("search", e.target.value);
     }
 
     const changeRating = (e: any, rating: any) => {
@@ -184,23 +194,33 @@ const ViewAllProducts = () => {
                     </div>
 
                     <div className='col-12 d-flex justify-content-end'>
-                        {totalProductsCount ? <b>{`${totalProductsCount} ${totalProductsCount>1 ?'results':'result'} found`}</b> : ""}
+                        {totalProductsCount ? <b>{`${totalProductsCount} ${totalProductsCount > 1 ? 'results' : 'result'} found`}</b> : ""}
                     </div>
 
-                    {products.length ?
-                        products.map((value: any, index: any) => <div className='col-sm-6 col-xs-6 col-md-3 col-lg-2 col-xl-2 mb-3'>
+
+                    {allProductsData.length ?
+                        allProductsData.map((value: any, index: any) => <div className='col-xs-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 col-6 mb-3'>
                             <Card product={value} />
                         </div>)
                         :
                         ""}
 
+                       
+
 
                     <div className='col-12 d-flex flex-row-reverse'>
-                        {products?.length ? <Pagination
-                            page={page}
+                        {allProductsData.length ? <Pagination
+                            page={current_page}
                             onChange={(event: any, value: any) => { handlePageChange(value) }}
                             pageCount={Math.ceil(totalProductsCount / OFFSET)}
-                        /> : <p>No data found.</p>}
+                        /> : null}
+                    </div>
+
+                    <div className='d-flex justify-content-center'>
+                        {
+                            allProductsData.length ? null :
+                                <p className='text-center'>No data found.</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -219,12 +239,15 @@ const ViewAllProducts = () => {
                                     for (let i = 0; i < dropdownValues.categories.length; ++i) {
                                         setValue(`categories.${i}.cat_name`, false);
                                     }
+                                    dispatch(resetProductSlice());
+                                    //////////send the reset option to true/////
+                                    getProductsData(1, true);
                                 }} />
                             </div>
                             <div className='col-6'>
                                 <Button label="Apply filters" isFilled={true} onClick={applyFilters} />
                             </div>
-                            <div className='col-12'>
+                            {/* <div className='col-12'>
                                 <Controller
                                     control={control}
                                     name={`search`}
@@ -238,7 +261,7 @@ const ViewAllProducts = () => {
                                         />
                                     )}
                                 />
-                            </div>
+                            </div> */}
 
 
                             <div className='col-12 mt-3'>

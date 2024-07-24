@@ -63,7 +63,8 @@
             
             .actual-price {
                 text-decoration: line-through;
-                color: #666
+                color: #666;
+                font-weight: 500;
             }
 
             .price-after-discount {
@@ -91,11 +92,12 @@
         @media (max-width: 460px) {
 
             .my-cart-card {
-                height: 200px;
+                min-height: 200px;
                 padding: 10px;
                 box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
                 border-radius: 10px;
                 margin: 0px 10px;
+                padding-top:15px;
             }
 
             .product-name {
@@ -136,6 +138,8 @@
 
         .actual-price {
             text-decoration: line-through;
+            color:#666;
+            font-weight: 500;
         }
 
         .price-after-discount {

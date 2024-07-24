@@ -1,34 +1,94 @@
 body {
-    font-family: Montserrat, sans-serif;
-  }
-  .navbar-brand {
-    background-image: url("../../assets/images/icons/trace.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 48px;
-    height: 48px;
-    cursor: pointer;
+  font-family: Montserrat, sans-serif;
+}
+
+.searchForm {
+  display: flex;
+  width: 700px;
+  justify-content: end;
+
+  .row {
+    display: flex;
+    justify-content: end;
   }
   
-  .navbar-nav .nav-item:hover {
-    background-color: #e9611e;
-    color:white;
-    cursor: pointer;
+  .input_nav:first-child{
+    width:300px
+  }
+}
+
+.input_button {
+
+  .input_button {
+    color: red;
   }
 
-  .navbar-nav .nav-item .nav-link{
-    color:white
-  }
+}
 
-  .navbar-nav .nav-item .active{
-    background-color: #e9611e;
-    border-radius: 5px;
-  }
+.navbar-brand {
+  background-image: url("../../assets/images/icons/trace.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
 
-  .dropdown-menu .dropdown-item:active{
-    background-color:white ;
-    color:black;
-  }
+.navbar-nav .nav-item:hover {
+  background-color: #e9611e;
+  color: white;
+  cursor: pointer;
+}
 
-  
+.navbar-nav .nav-item .nav-link {
+  color: white
+}
+
+.navbar-nav .nav-item .active {
+  background-color: #e9611e;
+  border-radius: 5px;
+}
+
+.dropdown-menu .dropdown-item:active {
+  background-color: white;
+  color: black;
+}
+
+.cart-item-count {
+  position: absolute;
+  // top: -2px;
+  // right: 1px;
+  margin-left: 2px;
+  margin-top: -10px;
+  color: rgb(33, 37, 41);
+  background: white;
+  border-radius: 5px;
+  padding: 0px 4px;
+  font-weight: 600;
+}
+
+@media (max-width: 460px) {
+  // .cart-item-count {}
+
+  .navbar-nav .nav-item .nav-link .active {
+    padding-left: 5px;
+  }
+}
+
+@media (max-width: 460px) {
+  .input_nav {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 460px) {
+  .searchForm {
+    width: auto;
+
+
+    .input_nav:first-child{
+      width: auto;
+    }
+  }
+}

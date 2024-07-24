@@ -281,7 +281,7 @@ const authSlice = createSlice({
             state.loadingGetMyOrders = false
         })
         //////////////////////////////////////////////////////
-        builder.addCase(updateOrderStatus.pending, state => {
+        builder.addCase(updateOrderStatus.pending, (state) => {
             state.loadingUpdateOrderStatus = true
         })
 

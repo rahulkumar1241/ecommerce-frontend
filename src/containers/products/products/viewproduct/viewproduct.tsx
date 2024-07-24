@@ -69,24 +69,32 @@ const ViewProduct = () => {
     }
 
     const productAction = async () => {
-        let formData = {
-            product_id: productData.product_id,
-            quantity: quantity
-        }
-
-        let response: any = await dispatch(addToCart(formData));
-        let responseData = response?.payload?.data ? response.payload.data : {};
-
-        if (responseData.success) {
-            let cartItems = useLocalStorage.getItem("cartItems");
-            cartItems.push(responseData.data);
-            useLocalStorage.setItem("cartItems", cartItems);
-            showToast(API_MESSAGE_TYPE.SUCCESS, responseData.message || 'Some Error Occurred...');
+        if (!localStorage.getItem("accessToken")) {
+            let product_id: any = params.get('product_id');
+            localStorage.setItem("product_to_buy", product_id);
+            showToast(API_MESSAGE_TYPE.ERROR, "Please sign in to continue.");
+            navigate(PATH.PUBLIC.SIGN_IN);
         }
         else {
-            showToast(API_MESSAGE_TYPE.ERROR, responseData.message || 'Some Error Occurred...');
-            if (responseData.status === 403) {
-                navigate(PATH.PRIVATE.CART)
+            let formData = {
+                product_id: productData.product_id,
+                quantity: quantity
+            }
+
+            let response: any = await dispatch(addToCart(formData));
+            let responseData = response?.payload?.data ? response.payload.data : {};
+
+            if (responseData.success) {
+                let cartItems = useLocalStorage.getItem("cartItems");
+                cartItems.push(responseData.data);
+                useLocalStorage.setItem("cartItems", cartItems);
+                showToast(API_MESSAGE_TYPE.SUCCESS, responseData.message || 'Some Error Occurred...');
+            }
+            else {
+                showToast(API_MESSAGE_TYPE.ERROR, responseData.message || 'Some Error Occurred...');
+                if (responseData.status === 403) {
+                    navigate(PATH.PRIVATE.CART)
+                }
             }
         }
     }
@@ -172,20 +180,20 @@ const ViewProduct = () => {
                         </div>
 
                         <div className="row">
-                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 actual-price">
+                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 actual-price mt-1">
                                 {numberToIndianCurrency(productData.price ? productData.price : 0)}
                             </div> : ""}
-                            <div className="col-lg-3 col-xl-3 col-md-3 col-6 price-after-discount">
+                            <div className="col-lg-3 col-xl-3 col-md-3 col-6 price-after-discount mt-1">
                                 {numberToIndianCurrency(productData.price_after_discount ? productData.price_after_discount : 0)}
                             </div>
-                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 discount-per">
+                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 mt-1 discount-per">
                                 <span>{productData.discount_per + "%" + " OFF"}</span>
                             </div> : ""}
-                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 save-amount">
+                            {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 mt-1 save-amount">
                                 {`You save ${numberToIndianCurrency(productData.price - productData.price_after_discount)}!`}
                             </div> : ""}
 
-                            <div className="col-12 d-flex  align-items-centers">
+                            {localStorage.getItem("accessToken") ? <div className="col-12 d-flex  align-items-centers">
 
                                 <Button
                                     isFilled={true}
@@ -215,7 +223,7 @@ const ViewProduct = () => {
 
 
 
-                            </div>
+                            </div> : null}
                         </div>
 
                         {productData.product_description ? <div className="row">
@@ -233,7 +241,7 @@ const ViewProduct = () => {
                             </div>
                         </div> : ""}
 
-                        <div className={`row`}>
+                        {localStorage.getItem("accessToken") ? <div className={`row ActionBtnContainer`}>
                             <div className="col-4">
                                 <Button label="Add to cart" disabled={productData.stock <= 0} onClick={productAction} />
                             </div>
@@ -243,9 +251,14 @@ const ViewProduct = () => {
                             <div className="col-4">
                                 <Button label="Add to wishlist" onClick={addToWishlistFunc} />
                             </div>
-                        </div>
+                        </div> : null}
 
 
+                        {!localStorage.getItem("accessToken") ? <div className={`row`}>
+                            <div className="col-12">
+                                <Button label="Buy now" isFilled={true} disabled={productData.stock <= 0} onClick={productAction} />
+                            </div>
+                        </div> : null}
 
                     </div>
                 </div>

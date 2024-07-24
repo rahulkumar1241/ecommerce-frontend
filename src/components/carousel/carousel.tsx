@@ -14,6 +14,8 @@ const Slider = () => {
                         className="d-block w-100 carousel-image"
                         src={Image1}
                         alt="First slide"
+                        rel="preload"
+
                     />
                     <Carousel.Caption>
                         <h5>First slide label</h5>
@@ -25,6 +27,7 @@ const Slider = () => {
                         className="d-block w-100 carousel-image"
                         src={Image2}
                         alt="Second slide"
+                        rel="preload"
                     />
                     <Carousel.Caption>
                         <h5>Second slide label</h5>
@@ -36,7 +39,7 @@ const Slider = () => {
                         className="d-block w-100 carousel-image"
                         src={Image3}
                         alt="Third slide"
-
+                        rel="preload"
                     />
                     <Carousel.Caption>
                         <h5>Third slide label</h5>
@@ -50,6 +53,7 @@ const Slider = () => {
                         className="d-block w-100 carousel-image"
                         src={Image4}
                         alt="Third slide"
+                        rel="preload"
                     />
                     <Carousel.Caption>
                         <h5>Fourth slide label</h5>

@@ -9,7 +9,8 @@ type InitialState =
         allOrderItemsData: any,
         totalOrderItemsCount: any,
         loadingGetDashboardData: any,
-        dashboardData: any
+        dashboardData: any,
+        loadingAddMember:boolean
     }
 
 const initialState: InitialState = {
@@ -18,7 +19,8 @@ const initialState: InitialState = {
     allOrderItemsData: [],
     totalOrderItemsCount: 0,
     loadingGetDashboardData: false,
-    dashboardData: {}
+    dashboardData: {},
+    loadingAddMember:false
 }
 
 const namespace = "admin"
@@ -27,6 +29,7 @@ const namespace = "admin"
 const UPLOAD_PRODUCT_SHEET = "/api/admin/uploadProductSheet";
 const GET_ALL_ORDER_ITEMS_INFO = "/api/admin/getAllOrders";
 const DASHBOARD_DATA = "/api/admin/dashboard";
+const ADD_MEMBER="/api/admin/add-account";
 
 
 export const getDashboardData = createAsyncThunk(`${namespace}/getDashboardData`, async (payload: any, { rejectWithValue }) => {
@@ -71,6 +74,17 @@ export const getAllOrdersInfo = createAsyncThunk(`${namespace}/getAllOrdersInfo`
     return response;
 })
 
+
+export const addMember = createAsyncThunk(`${namespace}/addMember`, async (payload: any, { rejectWithValue }) => {
+    let apiPayload ={method: "POST", data: payload, url: `${ADD_MEMBER}`}
+
+    let response: any = await useApiService(apiPayload);
+    //////////////If API CRASHES//////////
+    if (response.isCrash) {
+        return rejectWithValue(response.error);
+    }
+    return response;
+})
 
 const adminSlice = createSlice({
     name: 'admin',
@@ -118,6 +132,20 @@ const adminSlice = createSlice({
         )
         builder.addCase(getDashboardData.rejected, (state, action) => {
             state.loadingGetDashboardData = false
+        })
+        ///////////////////////////////////
+        builder.addCase(addMember.pending, state => {
+            state.loadingAddMember = true
+        })
+
+        builder.addCase(
+            addMember.fulfilled,
+            (state, action: PayloadAction<any>) => {
+                state.loadingAddMember = false;
+            }
+        )
+        builder.addCase(addMember.rejected, (state, action) => {
+            state.loadingAddMember = false
         })
     }
 })

@@ -288,7 +288,6 @@ const OrderDetails = (props) => {
                                     label="Work"
                                     value="2"
                                     onChange={(e) => {
-                                        debugger
                                         setValue("addressType", "2")
                                     }}
                                 />

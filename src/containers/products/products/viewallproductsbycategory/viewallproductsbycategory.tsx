@@ -48,8 +48,6 @@ const ViewAllProductsByCategory = () => {
 
 
     const getProductData = async (page: any) => {
-        console.log(getValues());
-        debugger
         let formData: any = {
             cat_id: params.get("category_id") ? params.get("category_id") : "",
             page_number: page,
@@ -58,7 +56,7 @@ const ViewAllProductsByCategory = () => {
         }
         /////////////////////////////////////////////////////
         if (getValues("search")) {
-            formData.filter_section.name = getValues("search");
+            formData.filter_section.name = getValues("search").trim();
         }
         if (getValues("price_range")) {
             formData.filter_section.max_price_range = getValues("price_range");
@@ -81,6 +79,8 @@ const ViewAllProductsByCategory = () => {
 
         let response = await dispatch(getProductsByCategory(formData));
         let productsData = response?.payload?.data ? response.payload.data : {};
+
+        DrawerRef.current.handleClose();
 
         if (productsData.success) {
             let data = { ...productsData.data };
@@ -162,7 +162,7 @@ const ViewAllProductsByCategory = () => {
                             <Card product={value} />
                         </div>)
                         :
-                        <p>No data found.</p>}
+                        <p className='text-center'>No data found.</p>}
 
 
                     <div className='col-12 d-flex flex-row-reverse'>
@@ -186,6 +186,8 @@ const ViewAllProductsByCategory = () => {
                                 <Button label="clear filters" isFilled={false} onClick={() => {
                                     resetValues()
                                     setValue("price_range", MAX_PRICE)
+                                    getProductData(1);
+                                    
                                 }} />
                             </div>
                             <div className='col-6'>
@@ -222,7 +224,6 @@ const ViewAllProductsByCategory = () => {
                                             label="Low to High"
                                             value="ASC"
                                             onChange={(e: any) => {
-                                                debugger
                                                 setValue("sort_by_price", "ASC")
                                             }}
                                         />

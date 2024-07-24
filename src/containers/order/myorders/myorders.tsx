@@ -85,6 +85,9 @@ const MyOrders = () => {
                 }
                 return orgData
             })
+
+            window.scrollTo(0, 0)
+            
             setMyOrderData(data)
         }
         else {
@@ -177,7 +180,7 @@ const MyOrders = () => {
                 <img src={NoProductsFound} alt="" />
             </div>
                 <div className="d-flex justify-content-center align-items-center">
-                    <MyLink navigatePath={PATH.PRIVATE.HOME_PAGE} label="continue shopping" style={{
+                    <MyLink navigatePath={PATH.PUBLIC.HOME_PAGE} label="continue shopping" style={{
                         fontWeight: 600,
                         fontSize: "120%"
                     }} />
@@ -186,7 +189,7 @@ const MyOrders = () => {
 
             {myOrderData.length ?
                 <div className="col-12">
-                    <h5>{ `${totalCountMyOrders} ${totalCountMyOrders > 1 ? 'Order Items' : 'Order Item'}!`}</h5>
+                    <h5>{`${totalCountMyOrders} ${totalCountMyOrders > 1 ? 'Order Items' : 'Order Item'}!`}</h5>
                 </div> : ""}
 
 
@@ -290,7 +293,7 @@ const MyOrders = () => {
                     </div>
 
                     <div className="mb-3">
-                        <b style={{ color: "#e9611e" }}>Shipping Contact Number. : </b><span>{'+91 ' + dataRef.current?.productInfo?.mobile_number}</span>
+                        <b style={{ color: "#e9611e" }}>Shipping Contact Number. : </b><span>{dataRef.current?.productInfo?.country_code + ' ' + dataRef.current?.productInfo?.mobile_number}</span>
                     </div>
 
                     <div className="mb-3">

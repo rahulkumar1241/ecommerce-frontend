@@ -358,7 +358,6 @@ const ViewAllProducts = () => {
                                             label="Low to High"
                                             value="ASC"
                                             onChange={(e: any) => {
-                                                debugger
                                                 setValue("sort_by_price", "ASC")
                                             }}
                                         />

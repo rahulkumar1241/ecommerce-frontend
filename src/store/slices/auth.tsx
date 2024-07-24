@@ -130,13 +130,13 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         //////////////////////////////////////////////////////
-        builder.addCase(loginUser.pending, state => {
+        builder.addCase(loginUser.pending, (state,action: PayloadAction<any>) => {
+            debugger
             state.loadingSignin = true
         })
         builder.addCase(
             loginUser.fulfilled,
             (state, action: PayloadAction<any>) => {
-                debugger
                 state.loadingSignin = false;
                 localStorage.setItem("accessToken", action.payload.data.accessToken);
                 useLocalStorage.setItem("userData", action.payload.data.user);
@@ -178,7 +178,6 @@ const authSlice = createSlice({
         builder.addCase(
             sendOtpUser.fulfilled,
             (state, action: PayloadAction<any>) => {
-                debugger
                 state.loadingSendOtp = false;
                 state.sendOtpEmail = action.payload.data.email;
             }

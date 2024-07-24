@@ -4,11 +4,8 @@ export const PATH: any =
         SIGN_IN: "/sign-in",
         SIGN_UP: "/sign-up",
         FORGOT_PASSWORD: "/forgot-password",
-        CONFIRM_PASSWORD: "/confirm-password"
-    },
-    PRIVATE: {
+        CONFIRM_PASSWORD: "/confirm-password",
         HOME_PAGE: "/home-page",
-        ACCOUNT: "/account",
         PRODUCTS: {
             MAIN_ROUTE: "/products",
             CHILD_ROUTES: {
@@ -16,7 +13,10 @@ export const PATH: any =
                 VIEW_PRODUCT: "view-product",
                 VIEW_PRODUCTS_BY_CATEGORY: "category"
             }
-        },
+        }
+    },
+    PRIVATE: {
+        ACCOUNT: "/account",
         ADMIN: {
             MAIN_ROUTE: "/admin",
             CHILD_ROUTES: {
@@ -25,7 +25,8 @@ export const PATH: any =
                 UPLOAD_PRODUCT_SHEET: "upload-sheet-product",
                 VIEW_ALL_ORDER_ITEMS: "view-all-order-items",
                 VIEW_EDIT_ORDER_ITEM_INFO: "order-item",
-                DASHBOARD: "dashboard"
+                DASHBOARD: "dashboard",
+                ADD_MEMBER:"add-member"
             }
         },
 

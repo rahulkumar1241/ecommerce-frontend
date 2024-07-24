@@ -91,7 +91,7 @@ const Info = () => {
             newData['lastname'] = formData.lastname;
             useLocalStorage.setItem("userData", newData);
 
-            navigate(PATH.PRIVATE.HOME_PAGE)
+            navigate(PATH.PUBLIC.HOME_PAGE)
         } else {
             showToast(
                 API_MESSAGE_TYPE.ERROR,

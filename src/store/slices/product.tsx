@@ -11,9 +11,12 @@ type InitialState =
         MIN_PRICE: number,
         totalProductsCount: number,
         loadingGetAllProducts: boolean,
+        allProductsData: Array<any>,
+        search_keyword: any,
+        current_page: number,
         loadingGetDropdownValues: boolean,
         dropdownValues: any,
-        loadingCreateOrUpdateProduct:boolean
+        loadingCreateOrUpdateProduct: boolean
     }
 const initialState: InitialState = {
     loadingGetProductData: false,
@@ -22,9 +25,12 @@ const initialState: InitialState = {
     MIN_PRICE: 0,
     totalProductsCount: 0,
     loadingGetAllProducts: false,
+    allProductsData: [],
+    search_keyword: "",
+    current_page: 1,
     loadingGetDropdownValues: false,
     dropdownValues: {},
-    loadingCreateOrUpdateProduct:false
+    loadingCreateOrUpdateProduct: false
 }
 
 
@@ -35,7 +41,7 @@ const GET_PRODUCT_DATA = "/api/products/getProduct";
 const GET_PRODUCTS_BY_CATEGORY = "/api/products/getAllProductsByCategory";
 const GET_ALL_PRODUCTS = "/api/products/getAllProducts";
 const GET_DROPDOWN_VALUES = "/getDropdownValues";
-const CREATE_OR_UPDATE_PRODUCT="/api/admin/createOrUpdateProduct";
+const CREATE_OR_UPDATE_PRODUCT = "/api/admin/createOrUpdateProduct";
 
 
 export const createOrUpdateProduct = createAsyncThunk(`${namespace}/createOrUpdateProduct`, async (payload: any, { rejectWithValue }) => {
@@ -90,10 +96,17 @@ export const getDropdownValues = createAsyncThunk(`${namespace}/getDropdownValue
     return response;
 })
 
-const authSlice = createSlice({
+const productSlice = createSlice({
     name: 'product',
     initialState,
-    reducers: {},
+    reducers: {
+        resetProductSlice: (state) => {
+            Object.assign(state, { ...state, search_keyword: "" });
+        },
+        changePageNumber: (state, data: any) => {
+            state.current_page = data.payload.page_number;
+        }
+    },
     extraReducers: builder => {
         //////////////////////////////////////////////////////
         builder.addCase(getProductData.pending, state => {
@@ -128,16 +141,23 @@ const authSlice = createSlice({
 
         //////////////////////////////////////////////////////////
         builder.addCase(getAllProducts.pending, state => {
-            state.loadingGetAllProducts = true
+            state.loadingGetAllProducts = true;
         })
 
         builder.addCase(
             getAllProducts.fulfilled,
             (state, action: PayloadAction<any>) => {
+                let search_keyword: any = localStorage.getItem("search_keyword");
+                if (!(search_keyword === null || search_keyword === undefined)) {
+                    state.search_keyword = localStorage.getItem("search_keyword");
+                    state.current_page = 1;
+                    localStorage.removeItem("search_keyword")
+                }
                 state.loadingGetAllProducts = false;
                 state.MAX_PRICE = action.payload.data.data.MAX_PRICE;
                 state.MIN_PRICE = action.payload.data.data.MIN_PRICE;
                 state.totalProductsCount = action.payload.data.data.total_count;
+                state.allProductsData = action.payload.data.data.products;
             }
         )
         builder.addCase(getAllProducts.rejected, (state, action) => {
@@ -175,4 +195,8 @@ const authSlice = createSlice({
     }
 })
 
-export default authSlice.reducer;
+
+export const { actions } = productSlice;
+export const { resetProductSlice, changePageNumber } = actions;
+
+export default productSlice.reducer;

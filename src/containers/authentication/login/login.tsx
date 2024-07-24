@@ -14,6 +14,7 @@ import { loginUser } from "../../../store/slices/auth";
 import { useNavigate } from "react-router-dom";
 import { API_MESSAGE_TYPE } from "../../../constants/constants";
 import showToast from "../../../components/toasters/toast";
+import { addToCart } from "../../../store/slices/cart";
 
 const Login = (props: any) => {
 
@@ -38,9 +39,10 @@ const Login = (props: any) => {
     });
 
 
-    useEffect(() => {
-        localStorage.clear();
-    }, []);
+    // useEffect(() => 
+    // {
+    //     localStorage.clear();
+    // }, []);
 
     const {
         register,
@@ -61,15 +63,40 @@ const Login = (props: any) => {
         let loginUserData = response?.payload?.data ? response.payload.data : {};
 
         if (loginUserData.success) {
-            showToast(
-                API_MESSAGE_TYPE.SUCCESS,
-                loginUserData.message ?
-                    loginUserData.message :
-                    "Something went wrong"
-            )
+            // showToast(
+            //     API_MESSAGE_TYPE.SUCCESS,
+            //     loginUserData.message ?
+            //         loginUserData.message :
+            //         "Something went wrong"
+            // )
             if (loginUserData.user.role === 0) {
                 ///////////navigation happens only for USER///////
-                navigate(PATH.PRIVATE.HOME_PAGE)
+                if (localStorage.getItem("product_to_buy")) {
+                    let formData =
+                    {
+                        product_id: localStorage.getItem("product_to_buy"),
+                        quantity: 1
+                    }
+
+                    let response: any = await dispatch(addToCart(formData));
+                    let responseData = response?.payload?.data ? response.payload.data : {};
+
+                    if (responseData.success) {
+                        localStorage.removeItem("product_to_buy");
+                        showToast(API_MESSAGE_TYPE.SUCCESS, responseData.message || 'Some Error Occurred...');
+                        navigate(PATH.PRIVATE.CART)
+                    }
+                    
+                    else {
+                        showToast(API_MESSAGE_TYPE.ERROR, responseData.message || 'Some Error Occurred...');
+                        if (responseData.status === 403) {
+                            navigate(PATH.PRIVATE.CART)
+                        }
+                    }
+
+                } else {
+                    navigate(PATH.PUBLIC.HOME_PAGE)
+                }
             } else if (loginUserData.user.role === 2) {
                 ///////////DELIVERY///////
                 navigate(PATH.PRIVATE.VIEW_ORDER_ITEM_DETAILS)

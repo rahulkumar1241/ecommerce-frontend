@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useState, useEffect } from "react";
 import "./topnavbar.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -12,15 +12,23 @@ import Loading from "../../components/loader/loader";
 import ConfirmDialog from "../../components/confirmdialog/confirmdialog";
 import showToast from "../../components/toasters/toast";
 import { API_MESSAGE_TYPE } from "../../constants/constants";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
+import { changePageNumber, getAllProducts, resetProductSlice } from "../../store/slices/product";
+import { IoSearchOutline } from "react-icons/io5";
 
 const Topbar = () => {
+    const dispatch = useAppDispatch();
+
     const location = useLocation();
     const navigate = useNavigate();
-    let userData = useLocalStorage.getItem("userData");
+    let userData = useLocalStorage.getItem("userData") ? useLocalStorage.getItem("userData") : {};
     const LogoutRef: any = useRef();
 
     const { totalCartItem } = useAppSelector(state => state.cart)
+    const { search_keyword, loadingGetAllProducts } = useAppSelector(state => state.product);
+    let [search, setSearch]: any = useState("");
 
     const handleNavigate = (key: any) => {
         switch (key) {
@@ -32,6 +40,10 @@ const Topbar = () => {
         }
     }
 
+    useEffect(() => {
+        setSearch(search_keyword);
+    }, [search_keyword])
+
     const onConfirm = () => {
         useLocalStorage.clear();
         showToast(API_MESSAGE_TYPE.SUCCESS, "Logout successfully.")
@@ -42,91 +54,178 @@ const Topbar = () => {
         LogoutRef.current.handleClose();
     }
 
+    const handleSearch = async (e:any) => {
+        e.preventDefault();
+        const OFFSET = 18;
+
+        let formData: any = {
+            page_number: 1,
+            page_size: OFFSET,
+            filter_section: {
+                name: search
+            }
+        }
+        localStorage.setItem("search_keyword", search);
+
+        let response = await dispatch(getAllProducts(formData));
+        let searchData = response?.payload?.data ? response.payload.data : {};
+        if (searchData.success) {
+            navigate(PATH.PUBLIC.PRODUCTS.MAIN_ROUTE)
+        }
+        else {
+            showToast(
+                API_MESSAGE_TYPE.ERROR,
+                searchData.message ?
+                    searchData.message :
+                    "Something went wrong"
+            )
+        }
+    }
+
+
     return <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        {loadingGetAllProducts ? <Loading loading={true} /> : null}
+
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex">
+
             <div className="container-fluid">
                 <div className="navbar-brand" onClick={(e: any) => {
 
                     let userData = useLocalStorage.getItem("userData");
 
-                    if (userData.role === 0) {
-                        navigate(PATH.PRIVATE.HOME_PAGE)
+                    if (userData.role === 0 || userData === "") {
+                        navigate(PATH.PUBLIC.HOME_PAGE)
                     }
                     else if (userData.role === 1) {
                         /////////////////////GO TO ADMIN DASHBOARD////////////////
                         navigate(PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.DASHBOARD)
                     }
                 }}></div>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ms-md-auto gap-2">
 
-                        {useLocalStorage.getItem("userData")?.role === 0 ? <><li className="nav-item rounded">
-                            <div style={{ position: "relative" }}>
-                                <Link to={PATH.PRIVATE.CART} style={{ paddingRight: "20px" }} className={`nav-link ${location.pathname === PATH.PRIVATE.CART ? 'active' : ''}`}
-                                ><MdAddShoppingCart />Cart</Link>
-                                <span style={{
-                                    position: "absolute",
-                                    top: "-2px", right: "1px",
-                                    color: "rgb(33,37,41)",
-                                    background: "white",
-                                    borderRadius: "8px",
-                                    padding: "0px 4px",
-                                    fontWeight: "600"
-                                }}>{totalCartItem}</span>
-                            </div>
-                        </li>
-                            <li className="nav-item rounded">
-                                <Link to={PATH.PRIVATE.GET_MY_ORDERS} className={`nav-link ${location.pathname === PATH.PRIVATE.GET_MY_ORDERS ? 'active' : ''}`}>My Orders</Link>
-                            </li>
-                            <li className="nav-item rounded">
-                                <Link to={PATH.PRIVATE.WISHLIST} className={`nav-link ${location.pathname === PATH.PRIVATE.WISHLIST ? 'active' : ''}`} >My Wishlist</Link>
-                            </li>
-                        </>
-                            : ""}
 
-                        {useLocalStorage.getItem("userData")?.role === 1 ? <>
+                {!(userData.role === 1 || userData.role === 2) ? <form onSubmit={handleSearch}><div className="form-inline searchForm">
 
-                            <li className="nav-item rounded">
-                                <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.DASHBOARD} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.DASHBOARD ? 'active' : ''}`}>Dashboard</Link>
-                            </li>
+                    <div className="input_nav" >
+                        <Input
+                            value={search}
+                            onChange={(e: any) => {
+                                setSearch(e.target.value)
+                            }}
+                            type="text"
+                            placeholder="Type here to search..."
+                            autoFocus={true}
+                        />
+                    </div>
+                    <div className="input_nav" >
+                        <Button type="submit"
+                            isFilled={true}
+                            isFullWidth={false}
+                            // onClick={handleSearch}
+                            style={{
+                                margin: "0px",
+                                height: "35px"
+                            }}
+                        >
+                            <IoSearchOutline />
+                        </Button>
+                    </div>
 
-                            <li className="nav-item rounded">
-                                <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_PRODUCTS} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_PRODUCTS ? 'active' : ''}`}>Products</Link>
-                            </li>
 
-                            <li className="nav-item rounded">
-                                <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_ORDER_ITEMS} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_ORDER_ITEMS ? 'active' : ''}`}>Orders</Link>
-                            </li>
+                </div> </form> : null}
 
-                        </>
-                            : ""}
 
-                        <li className="nav-item dropdown rounded">
-                            {/* string.charAt(0).toUpperCase() + string.slice(1); */}
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{`Hi, ${userData.firstname.charAt(0).toUpperCase() + userData.firstname.slice(1)}`}</a>
-                            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {useLocalStorage.getItem("userData")?.role === 0
-                                    ?
-                                    <>
-                                        <li>
-                                            <span className="dropdown-item" onClick={(e: any) => handleNavigate("ACCOUNT")}>
-                                                <MdAccountBox />Account
-                                            </span>
+                {useLocalStorage.getItem("userData") ?
+                    <>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-md-auto gap-2">
+
+                                {useLocalStorage.getItem("userData")?.role === 0 ? <><li className="nav-item rounded">
+
+                                    <Link to={PATH.PRIVATE.CART} style={{ paddingRight: "20px" }} className={`nav-link ${location.pathname === PATH.PRIVATE.CART ? 'active' : ''}`}
+                                    >
+                                        <span style={{ position: "relative" }}>
+                                            <MdAddShoppingCart />Cart
+                                            <span className="cart-item-count">{totalCartItem}</span>
+                                        </span>
+                                    </Link>
+
+
+                                    {/* </span> */}
+                                </li>
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.GET_MY_ORDERS} className={`nav-link ${location.pathname === PATH.PRIVATE.GET_MY_ORDERS ? 'active' : ''}`}>My Orders</Link>
+                                    </li>
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.WISHLIST} className={`nav-link ${location.pathname === PATH.PRIVATE.WISHLIST ? 'active' : ''}`} >My Wishlist</Link>
+                                    </li>
+                                </>
+                                    : ""}
+
+                                {useLocalStorage.getItem("userData")?.role === 1 ? <>
+
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.DASHBOARD} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.DASHBOARD ? 'active' : ''}`}>Dashboard</Link>
+                                    </li>
+
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_PRODUCTS} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_PRODUCTS ? 'active' : ''}`}>Products</Link>
+                                    </li>
+
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_ORDER_ITEMS} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_ORDER_ITEMS ? 'active' : ''}`}>Orders</Link>
+                                    </li>
+
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.ADD_MEMBER} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.ADD_MEMBER ? 'active' : ''}`}>Add Members</Link>
+                                    </li>
+
+                                </>
+                                    : ""}
+
+                                <li className="nav-item dropdown rounded">
+                                    {/* string.charAt(0).toUpperCase() + string.slice(1); */}
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{`Hi, ${userData.firstname.charAt(0).toUpperCase() + userData.firstname.slice(1)}`}</a>
+                                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        {useLocalStorage.getItem("userData")?.role === 0
+                                            ?
+                                            <>
+                                                <li>
+                                                    <span className="dropdown-item" onClick={(e: any) => handleNavigate("ACCOUNT")}>
+                                                        <MdAccountBox />Account
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <hr className="dropdown-divider" />
+                                                </li>
+                                            </> : ""}
+                                        <li><span className="dropdown-item" onClick={(e: any) => handleNavigate("LOGOUT")}>
+                                            <FiLogOut /> Logout</span>
                                         </li>
-                                        <li>
-                                            <hr className="dropdown-divider" />
-                                        </li>
-                                    </> : ""}
-                                <li><span className="dropdown-item" onClick={(e: any) => handleNavigate("LOGOUT")}>
-                                    <FiLogOut /> Logout</span>
+                                    </ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </> :
+                    <>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-md-auto gap-2">
+                                <li className="nav-item rounded">
+                                    <Link to={PATH.PUBLIC.SIGN_IN} className={`nav-link ${location.pathname === PATH.PRIVATE.GET_MY_ORDERS ? 'active' : ''}`}>Signin</Link>
+                                </li>
+                                <li className="nav-item rounded">
+                                    <Link to={PATH.PUBLIC.SIGN_UP} className={`nav-link ${location.pathname === PATH.PRIVATE.WISHLIST ? 'active' : ''}`} >Signup</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </>
+
+                }
             </div>
         </nav>
 

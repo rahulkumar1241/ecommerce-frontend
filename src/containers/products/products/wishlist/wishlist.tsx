@@ -65,7 +65,7 @@ const WishList = () => {
         }
     }
     const viewProduct = (product_id: any) => {
-        navigate(`${PATH.PRIVATE.PRODUCTS.MAIN_ROUTE}/${PATH.PRIVATE.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product_id}`)
+        navigate(`${PATH.PUBLIC.PRODUCTS.MAIN_ROUTE}/${PATH.PUBLIC.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product_id}`)
     }
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const WishList = () => {
                 <img src={NoProductsFound} alt="" />
             </div>
                 <div className="d-flex justify-content-center align-items-center">
-                    <MyLink navigatePath={PATH.PRIVATE.HOME_PAGE} label="continue shopping" style={{
+                    <MyLink navigatePath={PATH.PUBLIC.HOME_PAGE} label="continue shopping" style={{
                         fontWeight: 600,
                         fontSize: "120%"
                     }} />
@@ -107,7 +107,7 @@ const WishList = () => {
                         <p className="product-name" onClick={(e: any) => {
                             viewProduct(value.product_id)
                         }}>{value.product_name.length > NAME_LENGTH ? value.product_name.slice(0, NAME_LENGTH) + "..." : value.product_name}</p>
-                        <p className="rating-component"> <RatingComponent rating={value.rating} /></p>
+                        <p className="rating-component"> <RatingComponent size='small' rating={value.rating} /></p>
 
                         <div className="price-section">
                             {value.discount_per ? <span className="price">{numberToIndianCurrency(value.price ? value.price : 0)}</span> : ""}

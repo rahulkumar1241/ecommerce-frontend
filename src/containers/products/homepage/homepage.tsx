@@ -20,7 +20,7 @@ const Homepage = (props: any) => {
     const navigate = useNavigate();
 
     const { loadingHomepageData, totalProductsCount } = useAppSelector(state => state.homepage);
-    const { loadingAddToCart,loadingGetCartItems } = useAppSelector(state => state.cart);
+    const { loadingAddToCart, loadingGetCartItems } = useAppSelector(state => state.cart);
     const { loadingAddToWishlist } = useAppSelector(state => state.wishlist)
     const { loadingCreateOrder } = useAppSelector(state => state.order);
 
@@ -29,7 +29,7 @@ const Homepage = (props: any) => {
 
         let response = await dispatch(getCartItems({}));
         let cartData = response?.payload?.data ? response.payload.data : {};
-        if (cartData.success) {}
+        if (cartData.success) { }
         else {
             if (cartData.status === 404) {
             } else {
@@ -61,20 +61,26 @@ const Homepage = (props: any) => {
         } else {
             let data = { ...homePageDataAPI.data };
             setHomepageData(data);
+            window.scrollTo(0, 0)
         }
     }
 
     useEffect(() => {
+
         fetchHomepageData();
-        getCartInfo();
+
+        if (localStorage.getItem("accessToken")) {
+            getCartInfo();
+        }
+
     }, []);
 
     const ViewAllProducts = () => {
-        navigate(PATH.PRIVATE.PRODUCTS.MAIN_ROUTE)
+        navigate(PATH.PUBLIC.PRODUCTS.MAIN_ROUTE)
     }
 
     const ViewSimilarProducts = (cat_id: any) => {
-        navigate(PATH.PRIVATE.PRODUCTS.MAIN_ROUTE + "/" + PATH.PRIVATE.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCTS_BY_CATEGORY + `?category_id=${cat_id}`);
+        navigate(PATH.PUBLIC.PRODUCTS.MAIN_ROUTE + "/" + PATH.PUBLIC.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCTS_BY_CATEGORY + `?category_id=${cat_id}`);
     }
 
     return (
@@ -86,15 +92,15 @@ const Homepage = (props: any) => {
                     <Slider />
                 </div>
 
-                <div className="categoryContainer">
+                {/* <div className="categoryContainer">
                     <div className="d-flex justify-content-end align-items-center">
                         <span className="view-similar-products" onClick={ViewAllProducts}>View all products
                             <b>{totalProductsCount}</b>
                         </span>
                     </div>
-                </div>
+                </div> */}
 
-                {(Object.keys(homepageData).length && homepageData.recently_watched_items.length) ?
+                {(Object.keys(homepageData).length && homepageData.recently_watched_items) ?
                     <div className="categoryContainer">
 
                         <p className="catName">Recently Watched Items</p>

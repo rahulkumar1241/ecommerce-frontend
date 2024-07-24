@@ -3,10 +3,10 @@
 
 .view-product-container {
     padding: 15px;
-    height: 90vh;
+    min-height: 80vh;
 
     .product-image-container {
-       
+
         img {
             height: 80vh;
             width: 100%;
@@ -15,7 +15,7 @@
             cursor: pointer;
         }
 
-        img:hover{
+        img:hover {
             transform: scale(1.1);
         }
     }
@@ -24,30 +24,29 @@
         pointer-events: none;
     }
 
-    .description{
+    .description {
         font-size: 14px;
     }
-    
 
 
-    .out-of-stock
-    {
-        color:$primary-error-color;
+
+    .out-of-stock {
+        color: $primary-error-color;
         font-size: 120%;
         font-weight: 600;
     }
 
-    .tabs-product-view{
-        .nav-tabs .nav-link.active{
-            background-color:$primary-color;
-            color:$text-color;
+    .tabs-product-view {
+        .nav-tabs .nav-link.active {
+            background-color: $primary-color;
+            color: $text-color;
             cursor: pointer;
             border-radius: 0px;
-            padding:7px;
+            padding: 7px;
         }
 
-        .nav-tabs .nav-link{
-            color:#444;
+        .nav-tabs .nav-link {
+            color: #444;
         }
     }
 
@@ -81,13 +80,13 @@
         font-weight: 600;
     }
 
-    .discount-per span{
+    .discount-per span {
         padding: 5px;
         border: 1px dashed $primary-success-color-dark;
         border-radius: 5px;
     }
 
-    .quantity{
+    .quantity {
         margin-top: 10px;
         padding: 0px 20px;
         font-weight: 600;
@@ -95,6 +94,8 @@
     }
 
     @media (max-width: 460px) {
+        padding: 5px;
+
         .product-image-container {
             img {
                 height: 40vh;
@@ -103,8 +104,22 @@
                 transition: 0.3s ease-in-out;
                 cursor: pointer;
             }
-            img:hover{
+
+            img:hover {
                 transform: scale(1.1);
+            }
+        }
+
+        .ActionBtnContainer {
+            button {
+                font-size: 12px !important;
+            }
+        }
+
+
+        .tabs-product-view {
+            .nav-tabs .nav-link.active {
+                font-size: 13px;
             }
         }
     }

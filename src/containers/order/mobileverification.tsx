@@ -10,9 +10,8 @@ import showToast from "../../components/toasters/toast";
 import { sendOtpOrder } from "../../store/slices/order";
 import { useAppDispatch } from "../../store/hooks";
 import { API_MESSAGE_TYPE } from "../../constants/constants";
-
-
-
+import Select from "../../components/select/select";
+import { COUNTRY_CODE } from "../../constants/dropdown";
 
 
 const MobileVerification = (props: any) => {
@@ -23,6 +22,8 @@ const MobileVerification = (props: any) => {
     const [open, setOpen]: any = useState(false);
 
     const validationSchema = Yup.object().shape({
+        country_code: Yup.string().trim()
+            .required('Country Code is required'),
         mobile: Yup.string().trim()
             .required('Mobile No. is required')
             .min(10, 'Mobile No. must be of 10 digits')
@@ -53,7 +54,8 @@ const MobileVerification = (props: any) => {
 
         let formData = {
             order_id: location.state.order_id,
-            mobile_number: data.mobile
+            mobile_number: data.mobile,
+            country_code: data.country_code
         }
 
         let response = await dispatch(sendOtpOrder(formData));
@@ -79,29 +81,53 @@ const MobileVerification = (props: any) => {
     return <React.Fragment>
         <div className="row mobile-container">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="col-12">
+                <div className="d-flex align-items-center">
+                    <div className="col-4">
+                        <Controller
+                            control={control}
+                            name={`country_code`}
+                            render={({ field: any }) => (
+                                <Select
+                                    menuItems={COUNTRY_CODE}
+                                    value={getValues("country_code")}
+                                    onChange={(e: any) => {
+                                        setValue("country_code", e.target.value)
+                                    }}
+                                    required={true}
+                                    label="Country Code"
+                                    error={errors.country_code ? true : false}
+                                    errormessage={errors.country_code?.message}
+                                />
+                            )}
+                        />
+                    </div>
 
-                    <Controller
-                        control={control}
-                        name={`mobile`}
-                        render={({ field: any }) => (
-                            <Input
-                                required={true}
-                                label="Mobile Number"
-                                type="text"
-                                error={errors.mobile ? true : false}
-                                errormessage={errors.mobile?.message}
-                                placeholder="Enter your mobile number"
-                                onChange={handleChangeMobile}
-                                value={getValues("mobile")}
-                            />
-                        )}
-                    />
+                    <div className="col-8">
+
+                        <Controller
+                            control={control}
+                            name={`mobile`}
+                            render={({ field: any }) => (
+                                <Input
+                                    required={true}
+                                    label="Mobile Number"
+                                    type="text"
+                                    error={errors.mobile ? true : false}
+                                    errormessage={errors.mobile?.message}
+                                    placeholder="Enter your mobile number"
+                                    onChange={handleChangeMobile}
+                                    value={getValues("mobile")}
+                                    style={{ marginLeft: "5px" }}
+                                />
+                            )}
+                        />
+                    </div>
                 </div>
 
                 <div className="col-12 mt-3">
                     <Button isFilled={true} type="submit" isFullwidth={true} label="get otp" />
                 </div>
+
             </form>
 
             {open ? <OtpModal

@@ -112,7 +112,7 @@ const MyCart = () => {
     }
 
     const viewProduct = (product_id: any) => {
-        navigate(`${PATH.PRIVATE.PRODUCTS.MAIN_ROUTE}/${PATH.PRIVATE.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product_id}`)
+        navigate(`${PATH.PUBLIC.PRODUCTS.MAIN_ROUTE}/${PATH.PUBLIC.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCT}?product_id=${product_id}`)
     }
 
     const createOrderFunc = async () => {
@@ -155,7 +155,7 @@ const MyCart = () => {
                     <img src={NoProductsFound} alt="" />
                 </div>
                     <div className="no-products-section d-flex justify-content-center align-items-center">
-                        <MyLink navigatePath={PATH.PRIVATE.HOME_PAGE} label="continue shopping" style={{
+                        <MyLink navigatePath={PATH.PUBLIC.HOME_PAGE} label="continue shopping" style={{
                             fontWeight: 600,
                             fontSize: "120%"
                         }} />
@@ -254,7 +254,7 @@ const MyCart = () => {
                         <div className="col-12 d-flex justify-content-between">
                             <div className="col-6">
                                 <Button label="continue shopping" onClick={(e: any) => {
-                                    navigate(PATH.PRIVATE.HOME_PAGE)
+                                    navigate(PATH.PUBLIC.HOME_PAGE)
                                 }} />
 
                             </div>

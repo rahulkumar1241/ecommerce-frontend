@@ -122,7 +122,7 @@ const OtpModal = (props: any) => {
             data['email'] = sendOtpEmail;
             useLocalStorage.setItem("userData", data);
             setOpen(false);
-            navigate(PATH.PRIVATE.HOME_PAGE);
+            navigate(PATH.PUBLIC.HOME_PAGE);
         }
         else {
             showToast(

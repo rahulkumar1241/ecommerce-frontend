@@ -1,0 +1,11 @@
+.admin-add-member {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .add-member-container {
+        width: calc(100vw - 60vw);
+        margin-top: 20px;
+    }
+}
