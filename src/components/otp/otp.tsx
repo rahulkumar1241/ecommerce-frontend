@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
-
+import { getOS } from '../../constants/constants';
 
 const MyOtpInput = (props: any) => {
     let { value, onChange, error, errormessage } = props;
@@ -17,7 +17,7 @@ const MyOtpInput = (props: any) => {
                 inputStyle={{
                     border: error ?
                         "1px solid red" : "",
-                    height: "45px", width: "45px",
+                    height:getOS() ==="desktop" ? "45px":"30px", width: getOS() ==="desktop" ? "45px":"30px",
                     margin:"0px 10px"
                 }}
             />
