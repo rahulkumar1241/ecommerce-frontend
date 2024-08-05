@@ -50,9 +50,9 @@ const ConfirmPassword = (props: any) => {
         resolver: yupResolver(validationSchema)
     });
 
-    // useEffect(() => {
-    //     localStorage.clear();
-    // }, [])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     const onSubmit = async (data: any) => {
         let formData = {
