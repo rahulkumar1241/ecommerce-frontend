@@ -3,6 +3,9 @@
 .stepper-container {
     width: 100%;
     padding: 0 15vw;
+        @media (max-width: 460px) {
+        padding: 0px 5vw;
+    }
 }
 
 .order-container {
@@ -23,10 +26,11 @@
 
 
     @media (max-width: 460px) {
-        margin-top: 50px;
+        margin-top: 20px;
+        min-height:25vh;
 
         .mobile-container {
-            padding: 10px 10vw;
+            padding: 10px 3vw;
         }
     }
 }
