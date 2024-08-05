@@ -28,3 +28,13 @@
 .bs-footer li {
     margin:8px 0px;
 }
+@media (max-width: 460px) {
+    .bs-footer{
+        padding:10px;
+        font-size:75%;
+    }
+
+    .bs-footer h4{
+        font-size: 18px;
+     } 
+}
