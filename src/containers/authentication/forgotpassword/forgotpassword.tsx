@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Input from "../../../components/input/input";
 import BannerImage from "../../../assets/images/banner/main-image.png";
 import Button from "../../../components/button/button";
@@ -37,6 +37,10 @@ const Forgotpassword = (props: any) => {
     } = useForm({
         resolver: yupResolver(validationSchema)
     });
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
 
     const onSubmit = async (data: any) => {
