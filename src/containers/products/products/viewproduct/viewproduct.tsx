@@ -17,7 +17,7 @@ import { addToCart } from "../../../../store/slices/cart";
 import { addToWishlist } from "../../../../store/slices/wishlist";
 import { createOrder } from "../../../../store/slices/order";
 import useLocalStorage from "../../../../utils/localStorage";
-
+import NoProductsFound from "../../../../assets/images/banner/error_404.jpeg";
 
 const ViewProduct = () => {
     const params = new URLSearchParams(document.location.search);
@@ -165,7 +165,7 @@ const ViewProduct = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-12 col-xs-12 col-md-4 col-lg-5 col-xl-5 product-image-container">
-                        <img src={productData.photo_url} alt="product" />
+                        <img src={productData.photo_url ? productData.photo_url : NoProductsFound} alt="product" />
                     </div>
 
                     <div className="col-sm-12 col-xs-12 col-md-8 col-lg-7 col-xl-7">
@@ -176,7 +176,7 @@ const ViewProduct = () => {
                         {productData.stock <= 0 ? <p className="out-of-stock">This product is out of stock</p> : ""}
 
                         <div>
-                            <RatingComponent rating={productData.rating} />
+                            <RatingComponent size='small'rating={productData.rating} />
                         </div>
 
                         <div className="row">
