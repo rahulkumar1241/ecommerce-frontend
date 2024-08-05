@@ -39,10 +39,9 @@ const Signup = (props:any) => {
             .required('Lastname is required.')
     });
 
-    // useEffect(() => 
-    // {
-    //     localStorage.clear();
-    // }, []);
+  useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     const {
         register,
