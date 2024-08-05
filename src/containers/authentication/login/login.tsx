@@ -39,10 +39,9 @@ const Login = (props: any) => {
     });
 
 
-    // useEffect(() => 
-    // {
-    //     localStorage.clear();
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     const {
         register,
