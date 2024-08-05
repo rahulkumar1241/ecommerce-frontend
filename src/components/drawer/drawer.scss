@@ -6,3 +6,8 @@
 .offcanvas-title{
     padding: 0px 15px;
 }
+@media (max-width: 460px) {
+    .offcanvas {
+        max-width: 80% !important;
+    }
+}
