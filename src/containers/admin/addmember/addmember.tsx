@@ -91,7 +91,8 @@ const AddMember = () => {
                 firstName: "",
                 lastName: "",
                 password: "",
-                role: 1
+                role: 1,
+                confirm_password:""
             })
             showToast(
                 API_MESSAGE_TYPE.SUCCESS,
