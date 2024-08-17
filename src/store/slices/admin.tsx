@@ -10,7 +10,10 @@ type InitialState =
         totalOrderItemsCount: any,
         loadingGetDashboardData: any,
         dashboardData: any,
-        loadingAddMember:boolean
+        loadingAddMember:boolean,
+        loadingAddCategory: boolean,
+        loadingGetCategoryInfo:boolean,
+        loadingUpdateCategoryInfo:boolean
     }
 
 const initialState: InitialState = {
@@ -20,7 +23,10 @@ const initialState: InitialState = {
     totalOrderItemsCount: 0,
     loadingGetDashboardData: false,
     dashboardData: {},
-    loadingAddMember:false
+    loadingAddMember:false,
+    loadingAddCategory: false,
+    loadingGetCategoryInfo:false,
+    loadingUpdateCategoryInfo:false
 }
 
 const namespace = "admin"
@@ -30,7 +36,42 @@ const UPLOAD_PRODUCT_SHEET = "/api/admin/uploadProductSheet";
 const GET_ALL_ORDER_ITEMS_INFO = "/api/admin/getAllOrders";
 const DASHBOARD_DATA = "/api/admin/dashboard";
 const ADD_MEMBER="/api/admin/add-account";
+const ADD_CATEGORY = '/api/admin/add-category';
+const GET_CATEGORY_INFO = "/api/admin/get-category-info";
+const UPDATE_CATEGORY_INFO = "/api/admin/update-category-info";
 
+export const updateCategoryInfo = createAsyncThunk(`${namespace}/updateCategoryInfo`, async (payload: any, { rejectWithValue }) => {
+    let apiPayload = { method: "POST", data: payload, url: UPDATE_CATEGORY_INFO }
+    let response: any = await useApiService(apiPayload);
+    //////////////If API CRASHES//////////
+    if (response.isCrash) {
+        return rejectWithValue(response.error);
+    }
+    return response;
+})
+
+
+export const getCategoryInfo = createAsyncThunk(`${namespace}/getCategoryInfo`, async (payload: any, { rejectWithValue }) => {
+    let apiPayload = { method: "GET", url: `${GET_CATEGORY_INFO}?cat_id=${payload.cat_id}`};
+    let response: any = await useApiService(apiPayload);
+    //////////////If API CRASHES//////////
+    if (response.isCrash) {
+        return rejectWithValue(response.error);
+    }
+    return response;
+})
+
+
+
+export const addCategory = createAsyncThunk(`${namespace}/addCategory`, async (payload: any, { rejectWithValue }) => {
+    let apiPayload = { method: "POST", data: payload, url: ADD_CATEGORY }
+    let response: any = await useApiService(apiPayload);
+    //////////////If API CRASHES//////////
+    if (response.isCrash) {
+        return rejectWithValue(response.error);
+    }
+    return response;
+})
 
 export const getDashboardData = createAsyncThunk(`${namespace}/getDashboardData`, async (payload: any, { rejectWithValue }) => {
     let apiPayload = {
@@ -146,6 +187,47 @@ const adminSlice = createSlice({
         )
         builder.addCase(addMember.rejected, (state, action) => {
             state.loadingAddMember = false
+        })
+        /////////////////////////////////////
+        builder.addCase(addCategory.pending, state => {
+            state.loadingAddCategory = true
+        })
+
+        builder.addCase(
+            addCategory.fulfilled,
+            (state, action: PayloadAction<any>) => {
+                state.loadingAddCategory = false;
+            }
+        )
+        builder.addCase(addCategory.rejected, (state, action) => {
+            state.loadingAddCategory = false
+        })
+        ///////////////////////////////////////
+        builder.addCase(getCategoryInfo.pending, state => {
+            state.loadingGetCategoryInfo = true
+        })
+
+        builder.addCase(
+            getCategoryInfo.fulfilled,
+            (state, action: PayloadAction<any>) => {
+                state.loadingGetCategoryInfo = false;
+            }
+        )
+        builder.addCase(getCategoryInfo.rejected, (state, action) => {
+            state.loadingGetCategoryInfo = false
+        })
+        ////////////////////////////////////////////
+        builder.addCase(updateCategoryInfo.pending, state => {
+            state.loadingUpdateCategoryInfo = true
+        })
+        builder.addCase(
+            updateCategoryInfo.fulfilled,
+            (state, action: PayloadAction<any>) => {
+                state.loadingUpdateCategoryInfo = false;
+            }
+        )
+        builder.addCase(updateCategoryInfo.rejected, (state, action) => {
+            state.loadingUpdateCategoryInfo = false
         })
     }
 })
