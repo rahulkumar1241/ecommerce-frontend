@@ -115,11 +115,16 @@ const Homepage = (props: any) => {
                                 <span className="catName">{data.category_name}</span>
                                 <span className="view-similar-products" onClick={() => {
                                     ViewSimilarProducts(data.cat_id)
-                                }}>View similar products
+                                }}>similar products
                                     <b>{data.total}</b>
                                 </span>
                             </div>
                             <SlickSlider products={data.products} />
+                            
+                            {data.banner_is_active ? <div className="offer-banner-section">
+                                <img src={data.banner_url} alt="offer-banner"/>
+                            </div> : null}
+                            
                         </div>
                     })
                     : ""}
