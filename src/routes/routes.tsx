@@ -30,6 +30,7 @@ const AdminOrders = lazy(() => import("../containers/admin/orders/order"));
 const AdminOrderItemInfo = lazy(() => import("../containers/admin/orderitem/orderitem"));
 const AdminDashboard = lazy(() => import("../containers/admin/dashboard/dashboard"));
 const AdminAddMemberScreen = lazy(() => import("../containers/admin/addmember/addmember"));
+const AdminManageOrAddCategory = lazy(() => import("../containers/admin/category/main"));
 
 const OrderMain = lazy(() => import("../containers/order/ordermain"));
 
@@ -138,6 +139,11 @@ const ProjectRoutes: React.FC = (): JSX.Element => {
 
 
                         <Route path={`${PATH.PRIVATE.ADMIN.MAIN_ROUTE}/*`}>
+
+                            <Route path={PATH.PRIVATE.ADMIN.CHILD_ROUTES.MANAGE_OR_ADD_CATEGORY} element={
+                                <AdminRoute>
+                                    <AdminManageOrAddCategory />
+                                </AdminRoute>} />
 
                             <Route path={PATH.PRIVATE.ADMIN.CHILD_ROUTES.VIEW_ALL_PRODUCTS} element={
                                 <AdminRoute>
