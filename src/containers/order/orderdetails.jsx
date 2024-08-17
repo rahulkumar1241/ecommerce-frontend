@@ -78,6 +78,7 @@ const OrderDetails = (props) => {
         if (orderData.success) {
             ///////////navigation happens only for USER///////
             showToast(API_MESSAGE_TYPE.SUCCESS, "We've got your order. Thanks!");
+            localStorage.setItem("reloadCount","0")
             navigate(PATH.PRIVATE.GET_MY_ORDERS)
         }
         else {
