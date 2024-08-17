@@ -26,7 +26,8 @@ export const PATH: any =
                 VIEW_ALL_ORDER_ITEMS: "view-all-order-items",
                 VIEW_EDIT_ORDER_ITEM_INFO: "order-item",
                 DASHBOARD: "dashboard",
-                ADD_MEMBER:"add-member"
+                ADD_MEMBER:"add-member",
+                MANAGE_OR_ADD_CATEGORY:"category"
             }
         },
 
