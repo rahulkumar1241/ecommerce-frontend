@@ -181,6 +181,9 @@ const Topbar = () => {
                                     <li className="nav-item rounded">
                                         <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.ADD_MEMBER} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.ADD_MEMBER ? 'active' : ''}`}>Add Members</Link>
                                     </li>
+                                    <li className="nav-item rounded">
+                                        <Link to={PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.MANAGE_OR_ADD_CATEGORY} className={`nav-link ${location.pathname === PATH.PRIVATE.ADMIN.MAIN_ROUTE + "/" + PATH.PRIVATE.ADMIN.CHILD_ROUTES.MANAGE_OR_ADD_CATEGORY ? 'active' : ''}`}>Category</Link>
+                                    </li>
 
                                 </>
                                     : ""}
