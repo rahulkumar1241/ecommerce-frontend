@@ -139,7 +139,7 @@ const Card = (props: any) => {
         <React.Fragment>
 
             <div className='product-card'>
-                <div className="ship-in-24-hrs-parent">
+                <div className="ship-in-24-hrs-parent" onClick={viewProduct}>
                     <div className="ship-in-24-hrs">
                         <img src={ShippingLogo} alt="" />
                         <span>
@@ -148,7 +148,7 @@ const Card = (props: any) => {
                     </div>
                 </div>
 
-                <div className="product-image-container">
+                <div className="product-image-container" onClick={viewProduct}>
                     <img
                         className="product-image "
                         src={product.photo_url}
