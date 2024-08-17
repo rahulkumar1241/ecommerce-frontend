@@ -50,6 +50,14 @@
                 width: 20px;
             }
         }
+        
+        @media (max-width: 460px) {
+            .ship-in-24-hrs {
+                font-size: 12px;
+                padding: 4px;
+                height: 20px;
+            }
+        }
     }
 
     .actionBtn {
@@ -86,7 +94,7 @@
         font-size: 16px;
         font-weight: 600;
         color: $primary-color;
-        font-family:Arial;;
+        font-family:Arial;
         line-height: 16px;
     }
 
@@ -127,9 +135,41 @@
     }
 
     @media (max-width: 460px) {
+         height: 260px;
+        
         .product-description {
             padding: 3px 8px;
-            font-size: 14px;
+            font-size: 12px;
+        }
+            .product-image {
+            padding: 0px;
+            width: 90px;
+            height: 90px;
+        }
+         &:hover {
+
+            cursor: pointer;
+
+            .ship-in-24-hrs-parent {
+                display: flex;
+                flex-direction: row-reverse;
+            }
+
+            .product-image {
+                display: block;
+            }
+
+            .rating,
+            .actionBtn,
+            .solid-seperator {
+                display: none;
+            }
+
+            .product-description {
+                color: #212529;
+                text-decoration: none;
+            }
+
         }
     }
 }
