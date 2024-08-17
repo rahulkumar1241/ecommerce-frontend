@@ -1,0 +1,29 @@
+@import "../../../assets/css/color_constants.scss";
+
+.category-container {
+    margin: 20px 20vw;
+    min-height: 50vh;
+
+    .tabs-product-view {
+        .nav-tabs .nav-link.active {
+            background-color: $primary-color;
+            color: $text-color;
+            cursor: pointer;
+            border-radius: 0px;
+            padding: 7px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #444;
+
+        }
+    }
+}
+
+.banner-info{
+    img{
+        width:100%;
+        max-height:300px;
+        object-fit: contain;
+    }
+}
