@@ -115,6 +115,10 @@ const Login = (props: any) => {
         }
     }
 
+    const handleContinueShopping = ()=>{
+        navigate(PATH.PUBLIC.HOME_PAGE)
+    }
+
 
 
     return (
@@ -173,6 +177,16 @@ const Login = (props: any) => {
                                     </div>
 
                                     <MyLink label="Forgot Password?" navigatePath={PATH.PUBLIC.FORGOT_PASSWORD} />
+                                </div>
+                                 <div className="col-12 d-flex justify-content-center">
+                                    <Button
+                                        isFilled={false}
+                                        label="Continue Shopping"
+                                        type="button"
+                                        isFullWidth={false}
+                                        onClick={handleContinueShopping}
+                                    />
+
                                 </div>
                             </div>
 
