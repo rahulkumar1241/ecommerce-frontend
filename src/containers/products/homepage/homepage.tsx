@@ -122,7 +122,9 @@ const Homepage = (props: any) => {
                             <SlickSlider products={data.products} />
                             
                             {data.banner_is_active ? <div className="offer-banner-section">
-                                <img src={data.banner_url} alt="offer-banner"/>
+                                <img src={data.banner_url} alt="offer-banner" onClick={() => {
+                                    handleClickOfferBanner(data.redirect_url)
+                                }}/>
                             </div> : null}
                             
                         </div>
