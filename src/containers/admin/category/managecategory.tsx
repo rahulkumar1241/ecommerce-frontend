@@ -10,6 +10,18 @@ import NoImage from "../../../assets/images/banner/no-image.png";
 import Switch from "../../../components/switch/switch";
 import Button from "../../../components/button/button";
 import { uploadImage } from "../../../store/slices/common";
+import Input from "../../../components/input/input";
+
+function isValidUrl(url: any) {
+    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '(([\\w\\d\\-\\.]+)\\.[a-z]{2,}|' + // domain name
+        'localhost|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|' + // localhost or IPv4
+        '\\[([0-9a-fA-F:\\.]+)\\])' + // IPv6
+        '(\\:\\d+)?(\\/[-\\w\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-\\w]*)?$', 'i'); // fragment locator
+    return !!pattern.test(url);
+}
 
 const ManageCategory = () => {
 
@@ -22,7 +34,7 @@ const ManageCategory = () => {
     const { loadingUploadImage } = useAppSelector(state => state.common);
 
     useEffect(() => {
-        getDropDownValuesForOrderStatus()
+        getDropDownValuesForOrderStatus();
     }, [])
 
 
@@ -34,7 +46,9 @@ const ManageCategory = () => {
         let response = await dispatch(getDropdownValues(formData));
         let dropdownData = response?.payload?.data ? response.payload.data : {};
 
-        if (dropdownData.success) { } else {
+        if (dropdownData.success) { 
+            window.scrollTo(0, 0);            
+        } else {
             showToast(API_MESSAGE_TYPE.ERROR,
                 dropdownData.message ?
                     dropdownData.message :
@@ -42,8 +56,10 @@ const ManageCategory = () => {
         }
     }
 
-
     const getCategoryInfoFunc = async (cat_id: any) => {
+
+        setCatData({cat_id:"",banner_url:"",banner_is_active:0,redirect_url:""});
+
         let formData = {
             cat_id: cat_id
         }
@@ -51,7 +67,8 @@ const ManageCategory = () => {
         let categoryData: any = response?.payload?.data ? response.payload.data : {};
 
         if (categoryData.success) {
-            setCatData(categoryData.data[0])
+
+            setCatData({...categoryData.data[0]},)
         } else {
             showToast(
                 API_MESSAGE_TYPE.ERROR,
@@ -77,10 +94,17 @@ const ManageCategory = () => {
     }
 
     const updateCategoryInfoFunc = async () => {
+        if (catData.redirect_url) {
+            if (!isValidUrl(catData.redirect_url)) {
+                showToast("ERROR", "Please enter a valid Redirect URL");
+                return;
+            }
+        }
         let formData = {
             cat_id: catData.cat_id,
-            banner_url: catData.banner_url,
-            banner_is_active: catData.banner_is_active ? 1 : 0
+            banner_url: catData.banner_url ? catData.banner_url :"",
+            banner_is_active: catData.banner_is_active ? 1 : 0,
+            redirect_url: catData.redirect_url ? catData.redirect_url : ""
         }
         /////////////check for jpg and png images///////////
         let response = await dispatch(updateCategoryInfo(formData));
@@ -88,6 +112,8 @@ const ManageCategory = () => {
 
         if (categoryData.success) {
             showToast('SUCCESS', categoryData.message || 'Some Error Occurred...');
+            setCatData({cat_id:"",banner_url:"",banner_is_active:0,redirect_url:""});
+            window.scrollTo(0, 0);
         } else {
             showToast('ERROR', categoryData.message || 'Some Error Occurred...');
         }
@@ -108,7 +134,7 @@ const ManageCategory = () => {
                         if (e.target.value) {
                             getCategoryInfoFunc(e.target.value);
                         } else {
-                            setCatData({})
+                            setCatData({cat_id:"",banner_url:"",banner_is_active:0,redirect_url:""})
                         }
                     }}
                     required={true}
@@ -147,6 +173,22 @@ const ManageCategory = () => {
                     ref={hiddenFileInput}
                     style={{ display: 'none' }} // Make the file input element invisible
                 />
+            </div>
+
+            <div className="col-12">
+
+                <Input
+                    required={true}
+                    label="Redirect URL"
+                    type="text"
+                    placeholder="Enter URL..."
+                    value={catData.redirect_url}
+                    onChange={(e: any) => {
+                        setCatData({ ...catData, redirect_url: e.target.value })
+                    }}
+                    autoFocus={true}
+                />
+
             </div>
 
             {catData.cat_id ? <div className="col-12 d-flex justify-content-center">
