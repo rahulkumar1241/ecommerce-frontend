@@ -15,10 +15,12 @@ import { sendOtpUser } from "../../../store/slices/auth";
 import { API_MESSAGE_TYPE } from "../../../constants/constants";
 import Loading from "../../../components/loader/loader";
 import showToast from "../../../components/toasters/toast";
+import { useNavigate } from "react-router-dom";
 
 const Forgotpassword = (props: any) => {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const { loadingSendOtp, } = useAppSelector(state => state.auth);
 
@@ -69,6 +71,10 @@ const Forgotpassword = (props: any) => {
         }
     }
 
+    const handleContinueShopping = ()=>{
+        navigate(PATH.PUBLIC.HOME_PAGE)
+    }
+
     return (
         <React.Fragment>
             {loadingSendOtp ? <Loading loading={true} /> : ""}
@@ -107,6 +113,15 @@ const Forgotpassword = (props: any) => {
                                 <div className="col-12 linkContainer">
                                     <MyLink label="login?" navigatePath={PATH.PUBLIC.SIGN_IN} />
                                     <MyLink label="signup?" navigatePath={PATH.PUBLIC.SIGN_UP} />
+                                </div>
+                                <div className="col-12 d-flex justify-content-center">
+                                    <Button
+                                        isFilled={false}
+                                        label="Continue Shopping"
+                                        type="button"
+                                        isFullWidth={false}
+                                        onClick={handleContinueShopping}
+                                    />
                                 </div>
                             </div>
                         </form>
