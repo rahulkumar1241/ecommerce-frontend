@@ -95,6 +95,10 @@
 
     @media (max-width: 460px) {
         padding: 5px;
+        .product-name {
+            font-weight: 600;
+            font-size: 95%;
+        }
 
         .product-image-container {
             img {
