@@ -82,6 +82,9 @@ const Homepage = (props: any) => {
     const ViewSimilarProducts = (cat_id: any) => {
         navigate(PATH.PUBLIC.PRODUCTS.MAIN_ROUTE + "/" + PATH.PUBLIC.PRODUCTS.CHILD_ROUTES.VIEW_PRODUCTS_BY_CATEGORY + `?category_id=${cat_id}`);
     }
+    const handleClickOfferBanner=(url:any)=>{
+        window.open(url,"_blank")
+    }
 
     return (
         <React.Fragment>
