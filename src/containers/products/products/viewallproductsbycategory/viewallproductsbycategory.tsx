@@ -158,7 +158,7 @@ const ViewAllProductsByCategory = () => {
                     </div>
 
                     {products.length ?
-                        products.map((value: any, index: any) => <div className='col-sm-6 col-xs-6 col-md-3 col-lg-2 col-xl-2 mb-3'>
+                        products.map((value: any, index: any) => <div className='col-sm-6 col-xs-6 col-md-3 col-lg-2 col-xl-2 col-6 mb-3'>
                             <Card product={value} />
                         </div>)
                         :
