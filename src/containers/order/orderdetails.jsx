@@ -24,6 +24,7 @@ const OrderDetails = (props) => {
 
     useEffect(() => {
         setValue("addressType", "1");
+        window.scrollTo(0,0)
     }, [])
 
 
