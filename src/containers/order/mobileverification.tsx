@@ -22,8 +22,6 @@ const MobileVerification = (props: any) => {
     const [open, setOpen]: any = useState(false);
 
     const validationSchema = Yup.object().shape({
-        country_code: Yup.string().trim()
-            .required('Country Code is required'),
         mobile: Yup.string().trim()
             .required('Mobile No. is required')
             .min(10, 'Mobile No. must be of 10 digits')
@@ -55,7 +53,7 @@ const MobileVerification = (props: any) => {
         let formData = {
             order_id: location.state.order_id,
             mobile_number: data.mobile,
-            country_code: data.country_code
+             country_code: '+91'
         }
 
         let response = await dispatch(sendOtpOrder(formData));
@@ -82,27 +80,11 @@ const MobileVerification = (props: any) => {
         <div className="row mobile-container">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="d-flex align-items-center">
-                    <div className="col-4">
-                        <Controller
-                            control={control}
-                            name={`country_code`}
-                            render={({ field: any }) => (
-                                <Select
-                                    menuItems={COUNTRY_CODE}
-                                    value={getValues("country_code")}
-                                    onChange={(e: any) => {
-                                        setValue("country_code", e.target.value)
-                                    }}
-                                    required={true}
-                                    label="Country Code"
-                                    error={errors.country_code ? true : false}
-                                    errormessage={errors.country_code?.message}
-                                />
-                            )}
-                        />
+                    <div className="col-2">
+                       <div className="country-code-info">+91</div>
                     </div>
 
-                    <div className="col-8">
+                    <div className="col-10">
 
                         <Controller
                             control={control}
