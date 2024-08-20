@@ -109,6 +109,15 @@ const Orders = () => {
                     {numberToIndianCurrency(row['buyout_price'])}
                 </div>
             }
+        },{
+            name: "Size",
+            selector: "size_info",
+            wrap: true,
+            cell: (row: any) => {
+                return <div className="d-flex justify-content-center">
+                    {row['size_info'] ? row['size_info']:"N/A"}
+                </div>
+            }
         },
         {
             name: "Order Status",
@@ -179,6 +188,8 @@ const Orders = () => {
             }
 
         }
+
+        DrawerRef.current.handleClose();
         
         let response = await dispatch(getAllOrdersInfo(formData));
         let orderData = response?.payload?.data ? response.payload.data : {};
