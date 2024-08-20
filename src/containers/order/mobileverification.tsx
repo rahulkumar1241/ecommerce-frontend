@@ -29,6 +29,10 @@ const MobileVerification = (props: any) => {
             .matches(/[6-9]{1}[0-9]{9}/, "Please enter a valid mobile number")
 
     });
+    
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[])
 
     const {
         register,
