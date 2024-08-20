@@ -307,6 +307,10 @@ const MyOrders = () => {
                         <b style={{ color: "#e9611e" }}>Shipping Contact Number. : </b><span>{dataRef.current?.productInfo?.country_code + ' ' + dataRef.current?.productInfo?.mobile_number}</span>
                     </div>
 
+                    {dataRef.current?.productInfo?.size_info? <div className="mb-3">
+                        <b style={{ color: "#e9611e" }}>Size : </b><span>{dataRef.current.productInfo.size_info}</span>
+                    </div>:null}
+
                     <div className="mb-3">
                         <b style={{ color: "#e9611e" }}>Purchase Time : </b><span>{dataRef.current?.productInfo?.datetime ? moment(dataRef.current?.productInfo?.datetime).format('DD/MM/YYYY hh:mm A') : ""}</span>
                     </div>
