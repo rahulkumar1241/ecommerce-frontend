@@ -176,6 +176,9 @@ const ViewAllProducts = () => {
                 delete formData.filter_section.categories
             }
         }
+        
+        DrawerRef.current.handleClose();
+        
         let response = await dispatch(getAllProducts(formData));
         let productsData = response?.payload?.data ? response.payload.data : {};
 
