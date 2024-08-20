@@ -22,6 +22,17 @@
             color: $primary-color;
             font-weight: 600;
         }
+        .country-code-info{
+            background-color: aqua;
+            height:35px;
+            width:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color:$text-color;
+            background-color: $primary-color;
+            margin-top: 33px;
+        }
     }
 
 
