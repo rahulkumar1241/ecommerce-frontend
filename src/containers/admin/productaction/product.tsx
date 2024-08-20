@@ -16,6 +16,7 @@ import Switch from "../../../components/switch/switch";
 import NoImage from "../../../assets/images/banner/no-image.png";
 import { uploadImage } from "../../../store/slices/common";
 import { PATH } from "../../../paths/path";
+import RadioButton from "../../../components/radio/radio";
 
 const ProductAction = () => {
     const hiddenFileInput: any = useRef(null);
@@ -44,6 +45,10 @@ const ProductAction = () => {
             .min(1)
             .typeError('Stock must be a number')
             .required("Stock is required"),
+       size_type: Yup
+            .number()
+            .typeError('Size Type must be a number')
+            .required("Size Type is required"),
         actual_price: Yup
             .number()
             .min(1)
@@ -102,6 +107,7 @@ const ProductAction = () => {
                 setValue("price_after_discount", data.price_after_discount);
                 setValue("rating", data.rating.toFixed(1));
                 setValue("is_active", data.is_active ? true : false)
+                setValue("size_type",data.size_type);
                 setImageUrl(data.photo_url)
             }
             setMode(info.mode);
@@ -113,6 +119,7 @@ const ProductAction = () => {
 
     useEffect(() => {
         setValue("is_active", false)
+        setValue("size_type",0);
         getProductCategories();
     }, []);
 
@@ -129,6 +136,7 @@ const ProductAction = () => {
             price: data.actual_price,
             discount_per: data.discount_per,
             price_after_discount: data.price_after_discount,
+            size_type:data.size_type,
             is_active: data.is_active
         };
 
@@ -271,6 +279,68 @@ const ProductAction = () => {
                                     )}
                                 />
 
+                            </div>
+
+                            <div className="col-12 d-flex mt-3">
+                                <p style={{ color: "#e9611e", fontWeight: "600",marginRight:"5px" }}>Size Type<span className="text-danger">*</span></p>
+                                <Controller
+                                    control={control}
+                                    name={`size_type`}
+                                    render={({ field: any }) => (
+                                        <RadioButton
+                                            selectedValue={getValues("size_type")}
+                                            label="Not Required"
+                                            value={0}
+                                            onChange={(e: any) => {
+                                                setValue("size_type", 0)
+                                            }}
+                                        />
+                                    )}
+                                />
+
+                                <Controller
+                                    control={control}
+                                    name={`size_type`}
+                                    render={({ field: any }) => (
+                                        <RadioButton
+                                            selectedValue={getValues("size_type")}
+                                            label="S,M,L,XL,XXL"
+                                            value={1}
+                                            onChange={(e: any) => {
+                                                setValue("size_type", 1)
+                                            }}
+                                        />
+                                    )}
+                                />
+
+                                <Controller
+                                    control={control}
+                                    name={`size_type`}
+                                    render={({ field: any }) => (
+                                        <RadioButton
+                                            selectedValue={getValues("size_type")}
+                                            label="28,30,32,34,36 inches"
+                                            value={2}
+                                            onChange={(e: any) => {
+                                                setValue("size_type", 2)
+                                            }}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    control={control}
+                                    name={`size_type`}
+                                    render={({ field: any }) => (
+                                        <RadioButton
+                                            selectedValue={getValues("size_type")}
+                                            label="7,8,9,10 UK"
+                                            value={3}
+                                            onChange={(e: any) => {
+                                                setValue("size_type", 3)
+                                            }}
+                                        />
+                                    )}
+                                />
                             </div>
 
 
