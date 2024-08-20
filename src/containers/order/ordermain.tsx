@@ -78,7 +78,7 @@ const OrderMain = () => {
 
         {(loadingSendOtpOrder || loadingGetOrderDetails) ? <Loading loading={true} /> : ""}
 
-        <div className="container">
+        <div className="container main-container">
             <div className="row">
 
                 <div className="col-12 mt-3 stepper-container">
