@@ -12,6 +12,7 @@
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
             border-radius: 10px;
             margin: 0px 10px;
+            margin-bottom: 15px;
             transition: 0.3s ease-in-out;
 
             .out-of-stock {
@@ -92,16 +93,30 @@
         @media (max-width: 460px) {
 
             .my-cart-card {
-                min-height: 200px;
+                max-height: 185px;
                 padding: 10px;
                 box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
                 border-radius: 10px;
                 margin: 0px 10px;
+                margin-bottom:10px;
                 padding-top:15px;
+
+                 img {
+                    max-height: 125px;
+                }
+
+                .remove-section{
+                    font-size: 13px;
+                }
+
+                .size-info-section{
+                    margin-top: -20px;
+                    margin-left: 25px;
+                }
             }
 
             .product-name {
-                font-size: 80%;
+                font-size: 70%;
                 transition: 0.3s ease-in-out;
             }
 
