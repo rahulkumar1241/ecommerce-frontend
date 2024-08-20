@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "../../paths/path";
 import { addToCart } from "../../store/slices/cart";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Loading from "../loader/loader";
 import showToast from "../toasters/toast";
 import { addToWishlist } from "../../store/slices/wishlist";
@@ -20,6 +20,8 @@ import CrossLogo from "../../assets/images/icons/dismiss(2).png";
 import { IoIosAdd } from "react-icons/io";
 import { IoIosRemove } from "react-icons/io";
 import { createOrder } from "../../store/slices/order";
+import { SIZE_DROPDOWN_WAIST_UP, SIZE_DROPDOWN_WAIST_DOWN, SIZE_DROPDOWN_SHOES } from "../../constants/dropdown";
+import Select from "../select/select";
 
 
 const Card = (props: any) => {
@@ -27,6 +29,7 @@ const Card = (props: any) => {
     const [quantity, setQuantity]: any = useState(1);
     const buyProductDataRef: any = useRef(null);
     const [open, setOpen]: any = useState(false);
+    const [sizeInfo, setSizeInfo]: any = useState('');
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -75,7 +78,12 @@ const Card = (props: any) => {
 
     const placeOrder = async () => {
         let productData = buyProductDataRef.current.productInfo;
-
+        
+        if ([1, 2, 3].includes(productData.size_type) && !sizeInfo) {
+            showToast("ERROR", "Please select a size option")
+            return;
+        }
+        
 
         let formData = {
             total_amount: quantity * productData.price_after_discount,
@@ -83,7 +91,8 @@ const Card = (props: any) => {
                 {
                     product_id: productData.product_id,
                     quantity: quantity,
-                    buyout_price: productData.price_after_discount
+                    buyout_price: productData.price_after_discount,
+                    size_info:sizeInfo ? sizeInfo : null
                 }
             ]
         }
@@ -134,6 +143,16 @@ const Card = (props: any) => {
             }
         }
     }
+
+    const DROPDOWN_VALUES = useMemo(() => {
+        let size_type = product.size_type;
+        switch (size_type) {
+            case 1: return SIZE_DROPDOWN_WAIST_UP;
+            case 2: return SIZE_DROPDOWN_WAIST_DOWN;
+            case 3: return SIZE_DROPDOWN_SHOES;
+            default: return [];
+        }
+    }, [])
 
     return (
         <React.Fragment>
@@ -226,7 +245,7 @@ const Card = (props: any) => {
                                 fontSize: "16px",
                                 color: "#e9611e",
                                 marginRight: "10px"
-                            }}>{'Please select the quantity to buy'}</span>
+                            }}>{`Please select the ${[1, 2, 3].includes(product.size_type) ? "size & quantity":"quantity"} to buy`}</span>
                             <span>
                                 <img src={CrossLogo} style={{
                                     height: "20px",
@@ -270,6 +289,18 @@ const Card = (props: any) => {
                                 </span>
                             </div>
 
+                            {(product.size_type === 1 || product.size_type === 2 || product.size_type === 3) ? <div className="col-12">
+                                <Select
+                                    menuItems={DROPDOWN_VALUES}
+                                    value={sizeInfo}
+                                    onChange={(e: any) => {
+                                        setSizeInfo(e.target.value)
+                                    }}
+                                    required={true}
+                                    label="Select Size"
+                                />
+                            </div> : null}
+
                             <div className="d-flex justify-content-center align-items-center">
                                 <Button isFilled={false} isFullWidth={true} label="cancel" onClick={(e: any) => {
                                     setOpen(false)
@@ -292,4 +323,4 @@ const Card = (props: any) => {
     );
 }
 
-export default Card;
+export default React.memo(Card);
