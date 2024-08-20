@@ -19,10 +19,22 @@ import { createOrder } from "../../../../store/slices/order";
 import useLocalStorage from "../../../../utils/localStorage";
 import NoProductsFound from "../../../../assets/images/banner/error_404.jpeg";
 
+////////////////////new code///////////////////
+import { SIZE_DROPDOWN_WAIST_UP, SIZE_DROPDOWN_WAIST_DOWN, SIZE_DROPDOWN_SHOES } from "../../../../constants/dropdown";
+import Select from "../../../../components/select/select";
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CrossLogo from "../../../../assets/images/icons/dismiss(2).png";
+
 const ViewProduct = () => {
     const params = new URLSearchParams(document.location.search);
     const [productData, setproductData]: any = useState({});
     const [quantity, setQuantity]: any = useState(1);
+    
+    const [sizeInfo, setSizeInfo]: any = useState('');
+    const [open, setOpen]: any = useState(false);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -126,13 +138,19 @@ const ViewProduct = () => {
 
 
     const createOrderFunc = async () => {
+        if ([1, 2, 3].includes(productData.size_type) && !sizeInfo) {
+            showToast("ERROR", "Please select a size option")
+            return;
+        }
+        
         let formData = {
             total_amount: productData.price_after_discount,
             products: [
                 {
                     product_id: productData.product_id,
                     quantity: quantity,
-                    buyout_price: productData.actual_price_after_discount
+                    buyout_price: productData.actual_price_after_discount,
+                    size_info: sizeInfo ? sizeInfo : null
                 }
             ]
         }
@@ -155,6 +173,16 @@ const ViewProduct = () => {
             )
         }
     }
+
+    const DROPDOWN_VALUES = useMemo(() => {
+        let size_type = productData.size_type;
+        switch (size_type) {
+            case 1: return SIZE_DROPDOWN_WAIST_UP;
+            case 2: return SIZE_DROPDOWN_WAIST_DOWN;
+            case 3: return SIZE_DROPDOWN_SHOES;
+            default: return [];
+        }
+    }, [productData])
 
 
 
@@ -193,7 +221,7 @@ const ViewProduct = () => {
                                 {`You save ${numberToIndianCurrency(productData.price - productData.price_after_discount)}!`}
                             </div> : ""}
 
-                            {localStorage.getItem("accessToken") ? <div className="col-12 d-flex  align-items-centers">
+                            {localStorage.getItem("accessToken") ? <div className="col-12 d-flex  align-items-center">
 
                                 <Button
                                     isFilled={true}
@@ -246,7 +274,13 @@ const ViewProduct = () => {
                                 <Button label="Add to cart" disabled={productData.stock <= 0} onClick={productAction} />
                             </div>
                             <div className="col-4">
-                                <Button label="Buy Now" isFilled={true} disabled={productData.stock <= 0} onClick={createOrderFunc} />
+                                <Button label="Buy Now" isFilled={true} disabled={productData.stock <= 0} onClick={() => {
+                                    if ([1, 2, 3].includes(productData.size_type)) {
+                                        setOpen(true)
+                                    } else {
+                                        createOrderFunc()
+                                    }
+                                }} />
                             </div>
                             <div className="col-4">
                                 <Button label="Add to wishlist" onClick={addToWishlistFunc} />
@@ -264,6 +298,72 @@ const ViewProduct = () => {
                 </div>
 
             </div>
+        </div>
+
+        <div className="quantity-modal">
+            <Dialog
+                open={open}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+
+                <DialogTitle id="alert-dialog-title" className='text-center' >
+                    <div className="d-flex justify-content-end">
+                        <span className="title" style={{
+                            fontWeight: "600",
+                            fontSize: "16px",
+                            color: "#e9611e",
+                            marginRight: "10px"
+                        }}>{'Please do select the size to buy'}</span>
+                        <span>
+                            <img src={CrossLogo} style={{
+                                height: "20px",
+                                width: "20px",
+                                cursor: "pointer",
+                                marginTop: "-10px"
+                            }}
+                                onClick={(e: any) => {
+                                    setOpen(false)
+                                }}
+                            />
+                        </span>
+                    </div>
+                </DialogTitle>
+
+
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+
+                        {(productData.size_type === 1 || productData.size_type === 2 || productData.size_type === 3) ? <div className="col-12">
+                            <Select
+                                menuItems={DROPDOWN_VALUES}
+                                value={sizeInfo}
+                                onChange={(e: any) => {
+                                    setSizeInfo(e.target.value)
+                                }}
+                                required={true}
+                                label="Select Size"
+                            />
+                        </div> : null}
+
+                        <div className="d-flex justify-content-center align-items-center">
+                            <Button isFilled={false} isFullWidth={true} label="cancel" onClick={(e: any) => {
+                                setOpen(false)
+                            }} />
+
+                            <Button
+                                isFilled={true}
+                                isFullWidth={true}
+                                label="continue"
+                                style={{ marginLeft: "10px" }}
+                                onClick={createOrderFunc}
+                            />
+                        </div>
+
+                    </DialogContentText>
+                </DialogContent>
+
+            </Dialog>
         </div>
 
 
