@@ -16,6 +16,9 @@ import NoProductsFound from "../../../../assets/images/banner/error_404.jpeg";
 import MyLink from "../../../../components/link/link";
 import useLocalStorage from "../../../../utils/localStorage";
 import { createOrder } from "../../../../store/slices/order";
+//////////////////////new code/////////////////////
+import { SIZE_DROPDOWN_WAIST_UP, SIZE_DROPDOWN_WAIST_DOWN, SIZE_DROPDOWN_SHOES } from "../../../../constants/dropdown";
+import Select from "../../../../components/select/select";
 
 const MyCart = () => {
     const NAME_LENGTH = 60;
@@ -27,6 +30,10 @@ const MyCart = () => {
         total_checkout_price_after_discount: 0,
         isDisabled: false
     });
+
+    ////////////////////////size info new code///////////
+    const [sizeDropdownArr, setSizeDropdownArr]: any = useState([]);
+    /////////////////////////////////////////////////////
 
     const { loadingGetCartItems, loadingUpdateQuantity } = useAppSelector(state => state.cart);
     const { loadingCreateOrder } = useAppSelector(state => state.order);
@@ -41,7 +48,8 @@ const MyCart = () => {
                     actual_price: value.price,
                     actual_price_after_discount: value.price_after_discount,
                     price: value.quantity * value.price,
-                    price_after_discount: value.quantity * value.price_after_discount
+                    price_after_discount: value.quantity * value.price_after_discount,
+                    size_info: ''
                 }
             })
             setProducts(cartProductData);
@@ -76,6 +84,28 @@ const MyCart = () => {
             checkoutInfo.total_checkout_price += value.price;
             checkoutInfo.total_checkout_price_after_discount += value.price_after_discount;
         })
+
+        ///////////////////////new code/////////////////////
+
+        let sizeDropdown: any = [];
+
+        products.map((value: any, index: number) => {
+            let size_type: any = value.size_type;
+
+            switch (size_type) {
+                case 1:
+                    sizeDropdown.push(SIZE_DROPDOWN_WAIST_UP);
+                    break;
+                case 2:
+                    sizeDropdown.push(SIZE_DROPDOWN_WAIST_DOWN);
+                    break;
+                case 3:
+                    sizeDropdown.push(SIZE_DROPDOWN_SHOES);
+                    break
+                default: sizeDropdown.push([]);
+            }
+        })
+        setSizeDropdownArr(sizeDropdown)
         setCheckoutInfo(checkoutInfo)
     }, [products])
 
@@ -116,13 +146,27 @@ const MyCart = () => {
     }
 
     const createOrderFunc = async () => {
+        
+        let bool: boolean = false;
+        products.map((value: any, index: number) => {
+            if ([1, 2, 3].includes(value.size_type) && !value.size_info) {
+                bool = true;
+            }
+        })
+
+        if (bool) {
+            showToast("ERROR", "Please select a size option")
+            return;
+        }
+        
         let formData = {
             total_amount: checkoutInfo.total_checkout_price_after_discount,
             products: products.map((value: any, index: any) => {
                 return {
                     product_id: value.product_id,
                     quantity: value.quantity,
-                    buyout_price: value.actual_price_after_discount
+                    buyout_price: value.actual_price_after_discount,
+                    size_info: value.size_info ? value.size_info : null
                 }
             })
         }
@@ -233,12 +277,33 @@ const MyCart = () => {
                                         </span>
                                     </div>
                                    
-                                    <span className="text-center remove-section" onClick={(e: any) => {
-                                        updateProductInfo(index, 0)
-                                    }}>
-                                        <MdDelete size={20} style={{ marginTop: "-5px" }} />
-                                        Remove
-                                    </span>
+                                    <div className="d-flex justify-content-between col-12 mt-3">
+                                        <span className="text-center remove-section" onClick={(e: any) => {
+                                            updateProductInfo(index, 0)
+                                        }}>
+                                            <MdDelete size={20} style={{ marginTop: "-5px" }} />
+                                            Remove
+                                        </span>
+
+                                        {(value.size_type === 1 || value.size_type === 2 || value.size_type === 3) ?
+                                            <span className="size-info-section">
+                                                <Select
+                                                    menuItems={sizeDropdownArr.length ? sizeDropdownArr[index] : []}
+                                                    value={value.size_info}
+                                                    onChange={(e: any) => {
+                                                        let new_product_data: any = [...products];
+                                                        new_product_data[index].size_info = e.target.value;
+                                                        setProducts(new_product_data)
+                                                    }}
+                                                    required={true}
+                                                    label="Select Size"
+                                                    size="sm"
+                                                />
+                                            </span>
+                                            : null}
+
+
+                                    </div>
                                 </div>
                             </div>
                         })}
