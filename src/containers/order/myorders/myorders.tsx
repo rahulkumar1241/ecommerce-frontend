@@ -102,20 +102,13 @@ const MyOrders = () => {
     }
 
     useEffect(() => {
-
+        let paymentDone: any = localStorage.getItem("paymentDone");
+        if (paymentDone === "1") {
+            showToast(API_MESSAGE_TYPE.SUCCESS, "We've got your order. Thanks!");
+            localStorage.removeItem("paymentDone");  
+        }
         /////////////initial page is 1////////
         getMyOrdersfunc(1);
-        let reloadCount: any = localStorage.getItem("reloadCount");
-        if (reloadCount === "0") {
-            let num: any = "1";
-            localStorage.setItem("reloadCount", num);
-            window.location.reload();
-        } else {
-            getMyOrdersfunc(1);
-        }
-        return () => {
-            localStorage.removeItem("reloadCount");
-        }
     }, [])
 
 
