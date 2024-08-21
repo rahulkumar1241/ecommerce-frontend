@@ -179,6 +179,12 @@ const AdminOrderItemInfo = () => {
                             <span className="sub-heading">Buyer's name : </span>
                             <span className="heading">{(orderItemData.firstname.slice(0, 1).toUpperCase() + orderItemData.firstname.slice(1).toLowerCase()) + " " + (orderItemData.lastname.slice(0, 1).toUpperCase() + orderItemData.lastname.slice(1).toLowerCase())}</span>
                         </div>
+                        
+                            {orderItemData.size_info ? <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
+                            <span className="sub-heading">Size : </span>
+                            <span className="heading">{orderItemData.size_info}</span>
+                        </div> : null}
+                        
                         <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
                             <span className="sub-heading">Order Status : </span>
                             <span className="heading">{orderItemData.order_status_desc}</span>
