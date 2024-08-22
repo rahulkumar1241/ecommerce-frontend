@@ -203,11 +203,11 @@ const OrderDetails = (props) => {
                                 render={({ field: any }) => (
                                     <Input
                                         required={true}
-                                        label="District"
+                                        label="City"
                                         type="text"
                                         error={errors.district ? true : false}
                                         errormessage={errors.district?.message}
-                                        placeholder="Enter district"
+                                        placeholder="Enter City"
                                         value={getValues("district")}
                                         disabled={true}
                                     />
