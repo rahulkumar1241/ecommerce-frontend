@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import "./vieworderitem.scss";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,9 +17,10 @@ import Select from "../../../components/select/select";
 const ViewOrderItemStatus = () => {
 
     const dispatch = useAppDispatch();
-
-    const { loadingGetOrderItemDetails, orderItemData, loadingUpdateOrderStatus } = useAppSelector(state => state.order);
+    
+    const { loadingGetOrderItemDetails, loadingUpdateOrderStatus } = useAppSelector(state => state.order);
     const { loadingDropdownValues, dropdownData } = useAppSelector(state => state.common);
+    let [orderItemData,setOrderItemData]:any = useState({});
 
     const validationSchema = Yup.object().shape({
         order_item_id: Yup.string().trim()
@@ -33,6 +34,9 @@ const ViewOrderItemStatus = () => {
     const {
         register,
         handleSubmit,
+        getValues,
+        setValue,
+        control,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchema)
@@ -72,9 +76,9 @@ const ViewOrderItemStatus = () => {
     }
 
     useEffect(() => {
+        window.scrollTo(0,0);
         getDropDownValuesForOrderStatus()
     }, [])
-
 
     const getOrderItemInfo = async (order_item_id: any) => {
         let formData = {
@@ -85,11 +89,11 @@ const ViewOrderItemStatus = () => {
         let orderItemData = response?.payload?.data ? response.payload.data : {};
 
         if (orderItemData.success) {
+            setOrderItemData(orderItemData.data);
+            setValue2("order_status",orderItemData.data.item_status ? orderItemData.data.item_status:"" );
         } else {
             showToast(API_MESSAGE_TYPE.ERROR, orderItemData.message)
         }
-        clearErrors2("order_status");
-        setValue2("order_status", "");
     }
 
     const onSubmit = async (data: any) => {
@@ -110,17 +114,21 @@ const ViewOrderItemStatus = () => {
         let orderData = response?.payload?.data ? response.payload.data : {};
 
         if (orderData.success) {
-            showToast(API_MESSAGE_TYPE.SUCCESS, 
+            setValue("order_item_id","");
+            setValue2("order_status","");
+            setOrderItemData({});
+            window.scrollTo(0,0);
+            showToast(API_MESSAGE_TYPE.SUCCESS,
                 orderData.message ?
-                orderData.message :
-                "Something went wrong")
-                getOrderItemInfo(formData.item_id)
+                    orderData.message :
+                    "Something went wrong")
+            
         }
         else {
-            showToast(API_MESSAGE_TYPE.ERROR, 
+            showToast(API_MESSAGE_TYPE.ERROR,
                 orderData.message ?
-                orderData.message :
-                "Something went wrong")
+                    orderData.message :
+                    "Something went wrong")
         }
     }
 
@@ -131,14 +139,24 @@ const ViewOrderItemStatus = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row d-flex">
                     <div className="col-sm-8 col-xs-8 col-md-4 col-lg-4 col-xl-4">
-                        <Input
-                            required={true}
-                            label="Order Item No."
-                            type="text"
-                            register={register('order_item_id')}
-                            error={errors.order_item_id ? true : false}
-                            errormessage={errors.order_item_id?.message}
-                            placeholder="Enter Order Item No."
+                        <Controller
+                            control={control}
+                            name={`order_item_id`}
+                            render={({ field: any }) => (
+                                <Input
+                                    required={true}
+                                    label="Order Item No."
+                                    type="text"
+                                    error={errors.order_item_id ? true : false}
+                                    value={getValues('order_item_id')}
+                                    errormessage={errors.order_item_id?.message}
+                                    placeholder="Enter Order Item No."
+                                    onChange={(e: any) => {
+                                        let value = e.target.value.replace(/\D/g, '');
+                                        setValue("order_item_id", value);
+                                    }}
+                                />
+                            )}
                         />
                     </div>
                     <div className="col-sm-4 col-xs-4 col-md-2 col-lg-2 col-xl-2">
@@ -187,7 +205,7 @@ const ViewOrderItemStatus = () => {
                             <span className="sub-heading">Shipping Address Type : </span>
                             <span className="heading">{orderItemData.description}</span>
                         </div>
-                        
+
                         <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
                             <span className="sub-heading">Mobile No : </span>
                             <span className="heading">{orderItemData.country_code} {orderItemData.mobile_number}</span>
@@ -202,12 +220,12 @@ const ViewOrderItemStatus = () => {
                             <span className="sub-heading">Buyer's name : </span>
                             <span className="heading">{(orderItemData.firstname.slice(0, 1).toUpperCase() + orderItemData.firstname.slice(1).toLowerCase()) + " " + (orderItemData.lastname.slice(0, 1).toUpperCase() + orderItemData.lastname.slice(1).toLowerCase())}</span>
                         </div>
-                        
+
                         {orderItemData.size_info ? <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
                             <span className="sub-heading">Size : </span>
                             <span className="heading">{orderItemData.size_info}</span>
                         </div> : null}
-                        
+
                         <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-3">
                             <span className="sub-heading">Order Status : </span>
                             <span className="heading">{orderItemData.order_status_desc}</span>
@@ -220,7 +238,7 @@ const ViewOrderItemStatus = () => {
                                 name={`order_status`}
                                 render={({ field: any }) => (
                                     <Select
-                                        style={{ marginTop: "-15px"}}
+                                        style={{ marginTop: "-15px" }}
                                         menuItems={dropdownData?.order_status_dropdown?.length ?
                                             dropdownData.order_status_dropdown.map((data: any, index: any) => {
                                                 return { value: data.status_id, label: data.order_status_desc }
