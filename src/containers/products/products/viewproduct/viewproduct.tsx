@@ -207,7 +207,7 @@ const ViewProduct = () => {
                             <RatingComponent size='small'rating={productData.rating} />
                         </div>
 
-                        <div className="row">
+                        <div className="row price-and-discount-info">
                             {productData.discount_per ? <div className="col-lg-3 col-xl-3 col-md-3 col-6 actual-price mt-1">
                                 {numberToIndianCurrency(productData.price ? productData.price : 0)}
                             </div> : ""}
