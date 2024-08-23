@@ -89,7 +89,7 @@ const Homepage = (props: any) => {
     return (
         <React.Fragment>
             {(loadingHomepageData || loadingAddToCart || loadingAddToWishlist || loadingCreateOrder || loadingGetCartItems) ? <Loading loading={true} /> : ""}
-            <div className="container-fluid">
+            <div className="container-fluid homepage-container">
 
                 <div className="row">
                     <Slider />
