@@ -95,6 +95,11 @@
 
     @media (max-width: 460px) {
         padding: 5px;
+
+        .price-and-discount-info{
+            font-size: 80%;
+        }
+        
         .product-name {
             font-weight: 600;
             font-size: 95%;
