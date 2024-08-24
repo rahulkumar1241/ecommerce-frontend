@@ -94,7 +94,7 @@
             overflow-y: scroll;
 
             .my-cart-card {
-                min-height: 210px;
+                min-height: 205px;
                 padding: 10px;
                 box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
                 border-radius: 10px;
@@ -139,6 +139,12 @@
                 font-size: 75%;
                 cursor: pointer;
             }
+            
+            .actual-price,
+            .price-after-discount{
+                font-size: 90%;
+            }
+
 
         }
 
