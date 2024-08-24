@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { IoClose } from "react-icons/io5";
+import { getCartItems } from "../../../store/slices/cart";
 
 const NAME_LENGTH = 60;
 const OFFSET = 5;
@@ -104,6 +105,7 @@ const MyOrders = () => {
     useEffect(() => {
         let paymentDone: any = localStorage.getItem("paymentDone");
         if (paymentDone === "1") {
+            dispatch(getCartItems({}));
             showToast(API_MESSAGE_TYPE.SUCCESS, "We've got your order. Thanks!");
             localStorage.removeItem("paymentDone");  
         }
