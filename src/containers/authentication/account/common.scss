@@ -15,7 +15,18 @@
 
         .nav-tabs .nav-link {
             color: #444;
+        }
+    }
 
+
+    @media (max-width: 460px) {
+        margin: 15px 5vw;
+        min-height: 65vh;
+
+        .tabs-product-view {
+            .nav-tabs .nav-link,.nav-link.active {
+                font-size: 14px;
+            }
         }
     }
 }
@@ -28,7 +39,17 @@
         transition: 0.3s ease-in-out;
     }
 
-    img:hover{
+    img:hover {
         transform: scale(1.1);
+    }
+
+    @media (max-width: 460px) {
+
+        font-size: 90%;
+
+        img {
+            height: 150px;
+            width: 150px;
+        }
     }
 }
