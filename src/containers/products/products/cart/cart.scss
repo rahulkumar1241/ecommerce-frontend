@@ -95,6 +95,10 @@
             height: 60vh;
             overflow-y: scroll;
 
+            h5{
+                font-size: 16px;
+            }
+
             .my-cart-card {
                 min-height: 205px;
                 padding: 10px;
@@ -138,7 +142,7 @@
             .price-after-discount,
             .discount-per,
             .save-amount {
-                font-size: 90%;
+                font-size: 80%;
                 cursor: pointer;
             }
             
