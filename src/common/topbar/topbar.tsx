@@ -20,6 +20,7 @@ import { IoSearchOutline } from "react-icons/io5";
 
 const Topbar = () => {
     const dispatch = useAppDispatch();
+    const btnRef: any = useRef(null);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -35,7 +36,9 @@ const Topbar = () => {
             case "LOGOUT":
                 LogoutRef.current.handleClickOpen();
                 break;
-            case "ACCOUNT": navigate(PATH.PRIVATE.ACCOUNT);
+            case "ACCOUNT":
+                btnRef.current.click();
+                navigate(PATH.PRIVATE.ACCOUNT);
                 break;
         }
     }
@@ -81,6 +84,11 @@ const Topbar = () => {
             )
         }
     }
+    
+    const closeButtonFunc = () => {
+        btnRef.current.click()
+    }
+
 
 
     return <React.Fragment>
@@ -136,13 +144,13 @@ const Topbar = () => {
 
                 {useLocalStorage.getItem("userData") ?
                     <>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <button ref={btnRef} className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav ms-md-auto gap-2">
 
-                                {useLocalStorage.getItem("userData")?.role === 0 ? <><li className="nav-item rounded">
+                                {useLocalStorage.getItem("userData")?.role === 0 ? <><li className="nav-item rounded" onClick={closeButtonFunc}>
 
                                     <Link to={PATH.PRIVATE.CART} style={{ paddingRight: "20px" }} className={`nav-link ${location.pathname === PATH.PRIVATE.CART ? 'active' : ''}`}
                                     >
@@ -155,10 +163,10 @@ const Topbar = () => {
 
                                     {/* </span> */}
                                 </li>
-                                    <li className="nav-item rounded">
+                                    <li className="nav-item rounded" onClick={closeButtonFunc}>
                                         <Link to={PATH.PRIVATE.GET_MY_ORDERS} className={`nav-link ${location.pathname === PATH.PRIVATE.GET_MY_ORDERS ? 'active' : ''}`}>My Orders</Link>
                                     </li>
-                                    <li className="nav-item rounded">
+                                    <li className="nav-item rounded" onClick={closeButtonFunc}>
                                         <Link to={PATH.PRIVATE.WISHLIST} className={`nav-link ${location.pathname === PATH.PRIVATE.WISHLIST ? 'active' : ''}`} >My Wishlist</Link>
                                     </li>
                                 </>
