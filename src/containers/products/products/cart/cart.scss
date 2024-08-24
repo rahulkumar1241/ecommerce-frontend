@@ -138,16 +138,13 @@
             .price-after-discount,
             .discount-per,
             .save-amount {
-                font-size: 75%;
+                font-size: 90%;
                 cursor: pointer;
             }
             
-            .actual-price,
-            .price-after-discount{
-                font-size: 90%;
-            }
-
-
+            .save-amount {
+                    display: none;
+             }
         }
 
 
