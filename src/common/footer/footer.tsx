@@ -20,7 +20,7 @@ const Footer = () => {
                         <ul>
                             <li>Jio Enterprises Limited,<br/>18th Floor World Mark Dubai, Aerocity, Gurgaon<br/>New Delhi-110037</li>
                             <li><a href="mailto:info@gmail.in">info@gmail.in</a></li>
-                            <li><a href="tel:+918219406736">+91 82194-0636,+91 82194-0636</a></li>
+                            <li><a href="tel:+918219406736">+91 82194-06736,+91 82194-06736</a></li>
                         </ul>
                     </div>
                 </div>
