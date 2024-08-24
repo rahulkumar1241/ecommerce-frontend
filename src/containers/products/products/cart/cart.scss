@@ -1,8 +1,10 @@
 @import "../../../../assets/css/color_constants.scss";
 
 .cart-container {
-
+    min-height: 70vh;
     .products-section {
+        height: 80vh;
+        overflow-y: scroll;
         
         .my-cart-card {
             height: 180px;
