@@ -11,7 +11,7 @@ import useLocalStorage from "../../utils/localStorage";
 import Loading from "../../components/loader/loader";
 import ConfirmDialog from "../../components/confirmdialog/confirmdialog";
 import showToast from "../../components/toasters/toast";
-import { API_MESSAGE_TYPE } from "../../constants/constants";
+import { API_MESSAGE_TYPE,getOS } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
@@ -86,7 +86,9 @@ const Topbar = () => {
     }
     
     const closeButtonFunc = () => {
-        btnRef.current.click()
+        if (getOS() !== "desktop") {
+            btnRef.current.click();
+        }
     }
 
 
