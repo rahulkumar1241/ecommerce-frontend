@@ -18,7 +18,7 @@ const MyOtpInput = (props: any) => {
                     border: error ?
                         "1px solid red" : "",
                     height:getOS() ==="desktop" ? "45px":"30px", width: getOS() ==="desktop" ? "45px":"30px",
-                    margin:"0px 10px"
+                    margin:getOS() ==="desktop" ?"0px 10px":"0px 5px"
                 }}
             />
             <Typography variant="subtitle1" color="error" >
