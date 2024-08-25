@@ -120,8 +120,15 @@
         }
 
         .ActionBtnContainer {
+            .col-4 {
+                padding-left: 1.5px;
+                /* Adjust padding to match reduced margin */
+                padding-right: 1.5px;
+                /* Adjust padding to match reduced margin */
+            }
+
             button {
-                font-size: 12px !important;
+                font-size: 11px !important;
             }
         }
 
