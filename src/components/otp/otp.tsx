@@ -21,9 +21,9 @@ const MyOtpInput = (props: any) => {
                     margin:getOS() ==="desktop" ?"0px 10px":"0px 5px"
                 }}
             />
-            <Typography variant="subtitle1" color="error" >
+             <div className='mt-1 d-flex justify-content-center text-danger'>
                 {errormessage ? errormessage : ""}
-            </Typography>
+            </div>
         </div>
 
     );
