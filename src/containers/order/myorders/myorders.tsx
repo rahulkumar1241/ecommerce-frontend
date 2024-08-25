@@ -218,8 +218,8 @@ const MyOrders = () => {
                                 (value.item_status === 12 && moment(value.order_item_datetime).add(7, 'days').format("DD-MM-YYYY") >= moment(new Date()).format("DD-MM-YYYY"))
                                 ? <span className="action-button">
                                     <Button isFilled={true} style={{
-                                        backgroundColor: "hsl(0, 100%, 60%)", height: "25px", margin: "0px", fontSize: "11px",
-                                        minWidth: (getOS() === "android" || getOS() === "android") ? "100px" : "100px"
+                                        backgroundColor: "hsl(0, 100%, 60%)", height: "25px", margin: "0px", fontSize: (getOS() === "android" || getOS() === "ios") ? "10px" : "11px",
+                                        minWidth: (getOS() === "android" || getOS() === "ios") ? "100px" : "100px"
                                     }}
                                         isFullwidth={false}
                                         label={(value.item_status === 3 || value.item_status === 5 || value.item_status === 13) ? 'Cancel Order' : 'Return Order'}
