@@ -106,12 +106,10 @@
                 border-radius: 10px;
                 margin: 0px 10px;
                 margin-bottom:10px;
-                padding-top:15px;
+                padding-top:12px;
                 
                 .actual-price,
-                .price-after-discount,
-                .discount-per,
-                .save-amount {
+                .price-after-discount{
                    margin-right:10px;
                 }
 
@@ -130,7 +128,7 @@
             }
 
             .product-name {
-                font-size: 75%;
+                font-size: 83%;
                 transition: 0.3s ease-in-out;
             }
 
