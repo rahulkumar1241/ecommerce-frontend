@@ -202,11 +202,11 @@ const MyOrders = () => {
 
             {myOrderData.map((value: any, index: any) =>
                 <div className="row my-order-card">
-                    <div className="col-3 d-flex justify-content-center">
+                    <div className="col-2 d-flex justify-content-center">
                         <img src={value.photo_url} alt="" />
                     </div>
 
-                    <div className="col-8">
+                    <div className="col-10">
 
                         <p className="product-name">{value.product_name.length > NAME_LENGTH ? value.product_name.slice(0, NAME_LENGTH) + "..." : value.product_name}</p>
 
