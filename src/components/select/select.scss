@@ -2,8 +2,21 @@
 
 .my-select {
 
-    .form-select{
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        select {
+          /* Apply specific styles for iOS if needed */
+          background-color: #fff; /* Ensure background is set */
+          border-color: #ccc; /* Custom border color */
+          color:black
+        }
+        select:focus {
+            outline: none; /* Remove the default outline */
+          }
+      }
+
+    .form-select {
         border: 1px solid gray;
+       
     }
 
 
@@ -19,6 +32,7 @@
         box-shadow: none !important;
         border: 1px solid $primary-color;
     }
+
     @media (max-width: 460px) {
         label{
             font-size: 13px;
@@ -29,15 +43,26 @@
 
 
 .my-select-error {
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        select {
+          /* Apply specific styles for iOS if needed */
+          background-color: #fff; /* Ensure background is set */
+          border-color: $primary-error-color; /* Custom border color */
+          color:black
+        }
+        select:focus {
+            outline: none; /* Remove the default outline */
+          }
+      }
+      
     label {
         font-weight: 600;
         color: $primary-error-color;
         margin: 5px 0px;
         font-size: 14px;
-        margin:0px;
     }
 
-    .form-select{
+    .form-select {
         border: 1px solid $primary-error-color;
     }
 
@@ -51,6 +76,7 @@
         color: $primary-error-color;
         font-size: 14px;
     }
+
     @media (max-width: 460px) {
         label{
             font-size: 13px;
