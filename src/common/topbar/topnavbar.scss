@@ -67,6 +67,11 @@ body {
   font-weight: 600;
 }
 
+.navbar-toggler {
+  padding: 5px !important;
+}
+
+
 @media (max-width: 460px) {
   // .cart-item-count {}
 
@@ -90,4 +95,12 @@ body {
       width: auto;
     }
   }
+}
+
+@media screen {
+  .input_nav:first-child {
+    width: auto;
+    margin-left:-10px
+  }
+  
 }
